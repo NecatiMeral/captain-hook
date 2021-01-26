@@ -1,4 +1,6 @@
-﻿using Volo.Abp.AutoMapper;
+﻿using CaptainHook.Receivers.AzureDevOps.Code;
+using CaptainHook.Receivers.AzureDevOps.Pipelines;
+using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
 
 namespace CaptainHook.Receivers.AzureDevOps
@@ -20,6 +22,8 @@ namespace CaptainHook.Receivers.AzureDevOps
                 options.Handlers[AzureDevOpsConstants.EventType.Code.PullRequestCreated] = typeof(GitPullRequestCreatedPublisher);
                 options.Handlers[AzureDevOpsConstants.EventType.Code.PullRequestUpdated] = typeof(GitPullRequestUpdatedPublisher);
                 options.Handlers[AzureDevOpsConstants.EventType.Code.PullRequestMerged] = typeof(GitPullRequestMergedPublisher);
+
+                options.Handlers[AzureDevOpsConstants.EventType.Pipelines.RunStateChanged] = typeof(PipelineRunStateChangedPublisher);
             });
         }
     }

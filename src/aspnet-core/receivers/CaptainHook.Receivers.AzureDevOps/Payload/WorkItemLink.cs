@@ -8,7 +8,7 @@ namespace CaptainHook.Receivers.AzureDevOps.Payload
     /// <summary>
     /// Describes the WorkItem's link.
     /// </summary>
-    public class WorkItemLink
+    public class WorkItemLink : IAzureLink
     {
         /// <summary>
         /// Gets the URL of WorkItem's link.

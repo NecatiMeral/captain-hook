@@ -2,7 +2,7 @@
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Local;
 
-namespace CaptainHook.Receivers.AzureDevOps
+namespace CaptainHook.Receivers.AzureDevOps.Code
 {
     public class CodeCheckedInPublisher : AzureDevOpsPublisher<CodeCheckedInPayload>, ITransientDependency
     {

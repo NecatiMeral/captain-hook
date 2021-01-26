@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <Import Project="..\..\common.props" />
 
@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\receivers\CaptainHook.Receivers\CaptainHook.Receivers.csproj" />
+    <ProjectReference Include="..\..\test\CaptainHook.Application.Tests\CaptainHook.Application.Tests.csproj" />
     <ProjectReference Include="..\CaptainHook.Application.Contracts\CaptainHook.Application.Contracts.csproj" />
   </ItemGroup>
 

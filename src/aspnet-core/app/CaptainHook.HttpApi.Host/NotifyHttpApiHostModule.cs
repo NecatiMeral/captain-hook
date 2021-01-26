@@ -17,6 +17,9 @@ using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.VirtualFileSystem;
+using CaptainHook.Receivers.AzureDevOps;
+using CaptainHook.Receivers;
+using CaptainHook.Publishers.AzureDevOps.RocketChat;
 
 namespace CaptainHook
 {
@@ -27,7 +30,10 @@ namespace CaptainHook
         typeof(CaptainHookEntityFrameworkCoreDbMigrationsModule),
         typeof(AbpAspNetCoreAuthenticationJwtBearerModule),
         typeof(AbpAspNetCoreSerilogModule),
-        typeof(AbpSwashbuckleModule)
+        typeof(AbpSwashbuckleModule),
+        typeof(CaptainHookReceiverModule),
+        typeof(CaptainHookAzureDevOpsReceiverModule),
+        typeof(CaptainHookPublishersAzureDevOpsRocketChatModule)
     )]
     public class CaptainHookHttpApiHostModule : AbpModule
     {

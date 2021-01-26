@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\receivers\CaptainHook.Receivers\CaptainHook.Receivers.csproj" />
     <ProjectReference Include="..\CaptainHook.Domain.Shared\CaptainHook.Domain.Shared.csproj" />
   </ItemGroup>
 

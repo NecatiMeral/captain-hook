@@ -2,6 +2,7 @@
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Domain;
 using Volo.Abp.Caching;
+using CaptainHook.Receivers;
 
 namespace CaptainHook
 {
@@ -9,7 +10,8 @@ namespace CaptainHook
         typeof(CaptainHookDomainSharedModule),
         typeof(AbpCachingModule),
         typeof(AbpAutoMapperModule),
-        typeof(AbpDddDomainModule)
+        typeof(AbpDddDomainModule),
+        typeof(CaptainHookReceiverModule)
     )]
     public class CaptainHookDomainModule : AbpModule
     {

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CaptainHook.Receivers;
 
 namespace CaptainHook
 {

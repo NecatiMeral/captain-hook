@@ -12,7 +12,6 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat.Client
     {
         readonly Dictionary<string, AuthenticationResult> tokenCache;
         protected IHttpClientFactory HttpClientFactory { get; }
-        bool signingOff;
 
         public RocketChatAuthenticator(IHttpClientFactory httpClientFactory)
         {
@@ -68,7 +67,7 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat.Client
                     };
                     tokenCache[cacheKey] = authResult;
 
-                    await SetUserPresence(authResult, "online");
+                    await SetUserPresence(authResult, "online", "serving your DevOps notifications.");
 
                     return authResult;
                 }
@@ -76,24 +75,21 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat.Client
             throw new Exception("Fix me");
         }
 
-        async Task SetUserPresence(AuthenticationResult auth, string status)
+        async Task SetUserPresence(AuthenticationResult auth, string status, string message)
         {
             using (var client = HttpClientFactory.CreateClient("RocketChat"))
             {
                 await AuthenticateImplAsync(client, auth);
 
-                _ = await client.PostAsJsonAsync("api/v1/users.setStatus", new { message = "Ready for take-off", status = status });
+                _ = await client.PostAsJsonAsync("api/v1/users.setStatus", new { message = message, status = status });
             }
-
         }
 
         public async Task SignOffAsync()
         {
-            signingOff = true;
-
             foreach (var pair in tokenCache)
             {
-                await SetUserPresence(pair.Value, "offline");
+                await SetUserPresence(pair.Value, "offline", "404 not found");
             }
         }
 

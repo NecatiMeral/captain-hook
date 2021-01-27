@@ -1,13 +1,13 @@
 ﻿using CaptainHook.Receivers.AzureDevOps.Payload;
+using CaptainHook.Receivers.Queue;
 using Volo.Abp.DependencyInjection;
-using Volo.Abp.EventBus.Local;
 
 namespace CaptainHook.Receivers.AzureDevOps.Pipelines
 {
-    public class PipelineRunStateChangedPublisher : AzureDevOpsPublisher<PipelineRunStateChangedPayload>, ITransientDependency
+    public class PipelineRunStateChangedPublisher : LocalAzureDevOpsPublisher<PipelineRunStateChangedPayload>, ITransientDependency
     {
-        public PipelineRunStateChangedPublisher(ILocalEventBus eventBus)
-            : base(eventBus)
+        public PipelineRunStateChangedPublisher(IEventQueue queue)
+            : base(queue, AzureDevOpsConstants.EventType.Pipelines.RunStateChanged)
         {
         }
     }

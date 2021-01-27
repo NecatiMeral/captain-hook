@@ -20,6 +20,7 @@ using Volo.Abp.VirtualFileSystem;
 using CaptainHook.Receivers.AzureDevOps;
 using CaptainHook.Receivers;
 using CaptainHook.Publishers.AzureDevOps.RocketChat;
+using CaptainHook.Receivers.Redis;
 
 namespace CaptainHook
 {
@@ -33,7 +34,8 @@ namespace CaptainHook
         typeof(AbpSwashbuckleModule),
         typeof(CaptainHookReceiverModule),
         typeof(CaptainHookAzureDevOpsReceiverModule),
-        typeof(CaptainHookPublishersAzureDevOpsRocketChatModule)
+        typeof(CaptainHookPublishersAzureDevOpsRocketChatModule),
+        typeof(CaptainHookReceiverRedisModule)
     )]
     public class CaptainHookHttpApiHostModule : AbpModule
     {

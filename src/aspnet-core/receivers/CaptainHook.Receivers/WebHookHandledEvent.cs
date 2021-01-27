@@ -7,7 +7,9 @@
 
     public class WebHookHandledEvent
     {
-        public string Name { get; set; }
+        public string ReceiverName { get; set; }
+
+        public string EventType { get; set; }
 
         public string Id { get; set; }
     }

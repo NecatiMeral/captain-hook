@@ -5,7 +5,10 @@ using Volo.Abp.Modularity;
 
 namespace CaptainHook.Receivers.AzureDevOps
 {
-    [DependsOn(typeof(AbpAutoMapperModule))]
+    [DependsOn(
+        typeof(AbpAutoMapperModule),
+        typeof(CaptainHookReceiverModule)
+        )]
     public class CaptainHookAzureDevOpsReceiverModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)

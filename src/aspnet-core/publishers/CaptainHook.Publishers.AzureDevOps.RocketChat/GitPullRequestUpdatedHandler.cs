@@ -1,6 +1,7 @@
 ﻿using CaptainHook.Publishers.AzureDevOps.RocketChat.Client;
 using CaptainHook.Receivers;
 using CaptainHook.Receivers.AzureDevOps.Payload;
+using CaptainHook.Receivers.Queue;
 using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus;
@@ -8,7 +9,7 @@ using Volo.Abp.EventBus;
 namespace CaptainHook.Publishers.AzureDevOps.RocketChat
 {
     public class GitPullRequestUpdatedHandler
-        : ILocalEventHandler<WebHookHandledEvent<GitPullRequestUpdatedPayload>>,
+        : IEventQueueHandler<WebHookHandledEvent<GitPullRequestUpdatedPayload>>,
           ITransientDependency
     {
         protected IConfigurationProvider ConfigurationProvider { get; }
@@ -22,7 +23,7 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat
 
         public async Task HandleEventAsync(WebHookHandledEvent<GitPullRequestUpdatedPayload> eventData)
         {
-            var configuration = ConfigurationProvider.GetConfigurationOrNull(eventData.Name, eventData.Id);
+            var configuration = ConfigurationProvider.GetConfigurationOrNull(eventData.EventType, eventData.Id);
             if (configuration == null)
             {
                 return;

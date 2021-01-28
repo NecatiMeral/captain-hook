@@ -4,7 +4,6 @@ using CaptainHook.Receivers.AzureDevOps.Payload;
 using CaptainHook.Receivers.Queue;
 using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
-using Volo.Abp.EventBus;
 
 namespace CaptainHook.Publishers.AzureDevOps.RocketChat
 {

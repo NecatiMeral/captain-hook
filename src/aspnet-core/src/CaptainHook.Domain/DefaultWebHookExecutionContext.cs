@@ -1,21 +1,36 @@
 ﻿using CaptainHook.Receivers;
+using Microsoft.Extensions.Configuration;
 
 namespace CaptainHook
 {
+    /// <inheritdoc/>
     class DefaultWebHookExecutionContext : IWebHookExecutionContext
     {
-        public string Name { get; }
+        /// <inheritdoc/>
+        public string HandlerName { get; }
 
-        public string Id { get; }
+        /// <inheritdoc/>
+        public string Identifier { get; }
 
-        public dynamic Content { get; }
+        /// <inheritdoc/>
+        public dynamic Payload { get; }
+
+        /// <inheritdoc/>
+        public IConfiguration Configuration { get; private set; }
 
         public DefaultWebHookExecutionContext(string name, string id, dynamic content)
         {
-            Name = name;
-            Id = id;
-            Content = content;
+            HandlerName = name;
+            Identifier = id;
+            Payload = content;
         }
 
+        /// <summary>
+        /// Appends configuration information which can be used by the receiver.
+        /// </summary>
+        public void EnrichConfiguration(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
     }
 }

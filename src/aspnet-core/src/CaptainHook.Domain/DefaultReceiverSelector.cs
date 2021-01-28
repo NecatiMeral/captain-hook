@@ -7,21 +7,34 @@ namespace CaptainHook
 {
     public class DefaultReceiverSelector : IReceiverSelector, ITransientDependency
     {
-        public WebHookOptions Options { get; }
+        public CaptainHookProcessingOptions Options { get; }
 
-        public DefaultReceiverSelector(IOptions<WebHookOptions> options)
+        public DefaultReceiverSelector(IOptions<CaptainHookProcessingOptions> options)
         {
             Options = options.Value;
         }
 
-        public Type Select(IWebHookExecutionContext context)
+        /// <inheritdoc/>
+        public ReceiverResolution Select(IWebHookExecutionContext context)
         {
-            if (!Options.Handlers.ContainsKey(context.Name))
+            if (!Options.Handlers.ContainsKey(context.HandlerName))
             {
-                throw new NotImplementedException(context.Name);
+                throw new NotImplementedException(context.HandlerName);
             }
 
-            return Options.Handlers[context.Name];
+            var matchingReceiver = Options.Receive.Find(x =>
+                string.Equals(x.HandlerName, context.HandlerName, StringComparison.OrdinalIgnoreCase)
+                && string.Equals(x.Identifier, context.Identifier, StringComparison.OrdinalIgnoreCase));
+
+            if (matchingReceiver == null)
+            {
+                return null;
+            }
+
+            return new ReceiverResolution(
+                Options.Handlers[context.HandlerName],
+                matchingReceiver
+            );
         }
     }
 }

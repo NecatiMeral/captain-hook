@@ -19,9 +19,9 @@ namespace CaptainHook
 
         [HttpPost]
         [Route("{name}/{id}")]
-        public async Task ReceiveAsync(string name, string id, [FromBody] dynamic content)
+        public async Task<object> ReceiveAsync(string name, string id, [FromBody] dynamic content)
         {
-            await IncomingWebHookAppService.ReceiveAsync(name, id, content);
+            return await IncomingWebHookAppService.ReceiveAsync(name, id, content);
         }
     }
 }

@@ -2,12 +2,12 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using System;
 using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
 
 namespace CaptainHook.Receivers.AzureDevOps
 {
+    /// <inheritdoc/>
     class AzureDevOpsReceiver : IWebhookReceiver, ITransientDependency
     {
         protected IServiceScopeFactory ServiceScopeFactory { get; }
@@ -19,9 +19,10 @@ namespace CaptainHook.Receivers.AzureDevOps
             Options = options.Value;
         }
 
+        /// <inheritdoc/>
         public async Task<object> ReceiveAsync(IWebHookExecutionContext context)
         {
-            EventPayload meta = JsonConvert.DeserializeObject<EventPayload>(context.Content.ToString());
+            EventPayload meta = JsonConvert.DeserializeObject<EventPayload>(context.Payload.ToString());
 
             var handlerType = Options.Handlers[meta.EventType];
 
@@ -29,15 +30,7 @@ namespace CaptainHook.Receivers.AzureDevOps
             {
                 var receiver = (IAzureDevOpsHandler)scope.ServiceProvider.GetRequiredService(handlerType);
 
-                try
-                {
-                    return await receiver.HandleAsync(context);
-                }
-                catch (Exception)
-                {
-                    // TODO LOG
-                    throw;
-                }
+                return await receiver.HandleAsync(context);
             }
         }
     }

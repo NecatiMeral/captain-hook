@@ -13,14 +13,14 @@ namespace CaptainHook
             WebHookService = webHookService;
         }
 
-        public async Task ReceiveAsync(string name, string id, dynamic content)
+        public async Task<object> ReceiveAsync(string name, string id, dynamic content)
         {
             Logger.LogInformation(1,
                 $"{ nameof(IncomingWebHookAppService)} / '{{Name}}' received '{{Id}}'.",
                 name,
                 id);
 
-            await WebHookService.ProcessAsync(name, id, content);
+            return await WebHookService.ProcessAsync(name, id, content);
         }
     }
 }

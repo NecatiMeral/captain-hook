@@ -4,6 +4,6 @@ namespace CaptainHook
 {
     public interface IIncomingWebHookAppService
     {
-        Task ReceiveAsync(string name, string id, dynamic content);
+        Task<object> ReceiveAsync(string name, string id, dynamic content);
     }
 }

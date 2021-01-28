@@ -17,11 +17,11 @@ namespace CaptainHook.Receivers.AzureDevOps
 
         public async Task<object> HandleAsync(IWebHookExecutionContext context)
         {
-            var payload = Parse(context.Content);
+            var payload = (TPayload)Parse(context.Payload);
 
-            await EventBus.PublishAsync(AzureDevOpsConstants.ReceiverName, context.Id, EventType, payload);
+            await EventBus.PublishAsync(AzureDevOpsConstants.ReceiverName, context.Identifier, EventType, payload);
 
-            return payload;
+            return null;
         }
 
         protected TPayload Parse(dynamic value)

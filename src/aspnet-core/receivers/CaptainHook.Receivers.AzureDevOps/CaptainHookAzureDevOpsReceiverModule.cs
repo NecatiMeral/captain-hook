@@ -13,7 +13,7 @@ namespace CaptainHook.Receivers.AzureDevOps
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            Configure<WebHookOptions>(options =>
+            Configure<CaptainHookProcessingOptions>(options =>
             {
                 options.Handlers[AzureDevOpsConstants.ReceiverName] = typeof(AzureDevOpsReceiver);
             });

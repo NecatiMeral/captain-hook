@@ -1,5 +1,4 @@
-﻿using CaptainHook.Receivers.Queue;
-using CaptainHook.Receivers.Redis.Queue;
+﻿using CaptainHook.Receivers.Redis.Queue;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using StackExchange.Redis;
@@ -14,7 +13,6 @@ using Volo.Abp.Threading;
 namespace CaptainHook.Receivers.Redis
 {
     [DependsOn(
-        typeof(CaptainHookReceiverModule),
         typeof(AbpDddDomainModule)
         )]
     public class CaptainHookReceiverRedisModule : AbpModule

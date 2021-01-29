@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace CaptainHook.Receivers
+namespace CaptainHook.WebHooks
 {
     /// <summary>
     /// Encapsulates required information to process a incoming webhook.

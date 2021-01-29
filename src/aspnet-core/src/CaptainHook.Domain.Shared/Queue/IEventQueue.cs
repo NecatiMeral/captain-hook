@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace CaptainHook.Receivers.Queue
+namespace CaptainHook.Queue
 {
     public interface IEventQueue
     {

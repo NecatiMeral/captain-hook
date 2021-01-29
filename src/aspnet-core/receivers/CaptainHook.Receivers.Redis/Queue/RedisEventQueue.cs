@@ -1,4 +1,4 @@
-﻿using CaptainHook.Receivers.Queue;
+﻿using CaptainHook.Queue;
 using Microsoft.Extensions.Options;
 using StackExchange.Redis;
 using System;

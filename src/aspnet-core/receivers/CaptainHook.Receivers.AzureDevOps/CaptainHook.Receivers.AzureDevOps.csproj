@@ -11,7 +11,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\CaptainHook.Receivers\CaptainHook.Receivers.csproj" />
+	  <ProjectReference Include="..\..\src\CaptainHook.Domain.Shared\CaptainHook.Domain.Shared.csproj" />
 	</ItemGroup>
 
 </Project>

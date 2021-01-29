@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace CaptainHook.Receivers
+namespace CaptainHook.WebHooks
 {
     /// <summary>
     /// Processed incoming webhooks

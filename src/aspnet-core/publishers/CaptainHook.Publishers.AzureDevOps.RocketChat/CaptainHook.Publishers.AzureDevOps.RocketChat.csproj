@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\receivers\CaptainHook.Receivers.AzureDevOps\CaptainHook.Receivers.AzureDevOps.csproj" />
-    <ProjectReference Include="..\..\receivers\CaptainHook.Receivers\CaptainHook.Receivers.csproj" />
   </ItemGroup>
 
 </Project>

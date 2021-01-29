@@ -1,7 +1,7 @@
 ﻿using Volo.Abp.Collections;
 using Volo.Abp.EventBus;
 
-namespace CaptainHook.Receivers.Queue
+namespace CaptainHook.Queue
 {
     public class EventQueueOptions
     {

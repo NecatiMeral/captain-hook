@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Volo.Abp.EventBus.Local;
 
-namespace CaptainHook.Receivers.Queue
+namespace CaptainHook.Queue
 {
     public class LocalEventQueue : IEventQueue
     {

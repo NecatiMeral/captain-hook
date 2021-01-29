@@ -1,6 +1,6 @@
-﻿using CaptainHook.Receivers;
+﻿using CaptainHook.WebHooks;
 
-namespace CaptainHook
+namespace CaptainHook.Receivers
 {
     public interface IReceiverSelector
     {

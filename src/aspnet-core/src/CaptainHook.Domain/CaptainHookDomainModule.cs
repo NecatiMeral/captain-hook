@@ -10,8 +10,7 @@ namespace CaptainHook
         typeof(CaptainHookDomainSharedModule),
         typeof(AbpCachingModule),
         typeof(AbpAutoMapperModule),
-        typeof(AbpDddDomainModule),
-        typeof(CaptainHookReceiverModule)
+        typeof(AbpDddDomainModule)
     )]
     public class CaptainHookDomainModule : AbpModule
     {

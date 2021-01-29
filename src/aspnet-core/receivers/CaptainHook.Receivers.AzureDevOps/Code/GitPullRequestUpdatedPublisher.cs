@@ -1,11 +1,10 @@
-﻿using CaptainHook.Receivers.AzureDevOps.Payload;
-using CaptainHook.Receivers.Queue;
+﻿using CaptainHook.Queue;
+using CaptainHook.Receivers.AzureDevOps.Payload;
 using Volo.Abp.DependencyInjection;
-using Volo.Abp.EventBus.Local;
 
 namespace CaptainHook.Receivers.AzureDevOps.Code
 {
-    public class GitPullRequestUpdatedPublisher : LocalAzureDevOpsPublisher<GitPullRequestUpdatedPayload>, ITransientDependency
+    public class GitPullRequestUpdatedPublisher : AzureDevOpsPublisher<GitPullRequestUpdatedPayload>, ITransientDependency
     {
         public GitPullRequestUpdatedPublisher(IEventQueue queue)
             : base(queue, AzureDevOpsConstants.EventType.Code.PullRequestUpdated)

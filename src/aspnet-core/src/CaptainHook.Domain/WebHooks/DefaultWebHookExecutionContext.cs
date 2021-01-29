@@ -1,7 +1,7 @@
 ﻿using CaptainHook.Receivers;
 using Microsoft.Extensions.Configuration;
 
-namespace CaptainHook
+namespace CaptainHook.WebHooks
 {
     /// <inheritdoc/>
     class DefaultWebHookExecutionContext : IWebHookExecutionContext

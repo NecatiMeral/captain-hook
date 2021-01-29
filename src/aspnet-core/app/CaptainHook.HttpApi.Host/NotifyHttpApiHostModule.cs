@@ -32,7 +32,6 @@ namespace CaptainHook
         typeof(AbpAspNetCoreAuthenticationJwtBearerModule),
         typeof(AbpAspNetCoreSerilogModule),
         typeof(AbpSwashbuckleModule),
-        typeof(CaptainHookReceiverModule),
         typeof(CaptainHookAzureDevOpsReceiverModule),
         typeof(CaptainHookPublishersAzureDevOpsRocketChatModule),
         typeof(CaptainHookReceiverRedisModule)
@@ -49,6 +48,7 @@ namespace CaptainHook
             ConfigureAuthentication(context, configuration);
             ConfigureLocalization();
             ConfigureVirtualFileSystem(context);
+            ConfigureWebHookReceivers(configuration);
             ConfigureCors(context, configuration);
             ConfigureSwaggerServices(context);
         }
@@ -72,6 +72,11 @@ namespace CaptainHook
                         Path.Combine(sourcePath, "CaptainHook.Application"));
                 });
             }
+        }
+
+        private void ConfigureWebHookReceivers(IConfiguration configuration)
+        {
+            Configure<CaptainHookReceiverOptions>(configuration.GetSection("CaptainHook"));
         }
 
         private void ConfigureAuthentication(ServiceConfigurationContext context, IConfiguration configuration)

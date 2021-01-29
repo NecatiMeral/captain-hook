@@ -1,15 +1,16 @@
-﻿using CaptainHook.Receivers.Queue;
+﻿using CaptainHook.Queue;
+using CaptainHook.WebHooks;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 
 namespace CaptainHook.Receivers.AzureDevOps
 {
-    public abstract class LocalAzureDevOpsPublisher<TPayload> : IAzureDevOpsHandler
+    public abstract class AzureDevOpsPublisher<TPayload> : IAzureDevOpsHandler
     {
         protected IEventQueue EventBus { get; }
         protected string EventType { get; }
 
-        public LocalAzureDevOpsPublisher(IEventQueue queue, string eventType)
+        public AzureDevOpsPublisher(IEventQueue queue, string eventType)
         {
             EventBus = queue;
             EventType = eventType;

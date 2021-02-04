@@ -20,8 +20,9 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat
             Configure<CaptainHookPublisherRegistryOptions>(o =>
             {
                 o.PublisherHandlers.GetOrAdd(AzureDevOpsConstants.ReceiverName, AzureDevOpsRocketChatConsts.PublisherName)
-                    .Append<GitPullRequestUpdatedHandler>(AzureDevOpsConstants.EventType.Code.PullRequestUpdated);
-                    
+                    .Append<GitPullRequestUpdatedHandler>(AzureDevOpsConstants.EventType.Code.PullRequestUpdated)
+                    .Append<PipelineRunStateChangedHandler>(AzureDevOpsConstants.EventType.Pipelines.RunStateChanged);
+
             });
         }
 

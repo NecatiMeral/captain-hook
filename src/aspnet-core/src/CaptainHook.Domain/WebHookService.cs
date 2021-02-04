@@ -3,13 +3,12 @@ using CaptainHook.WebHooks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Services;
 
 namespace CaptainHook
 {
-    /// <inheritdoc/>
+    /// <inheritdoc cref="IWebHookService"/>
     public class WebHookService : DomainService, IWebHookService
     {
         protected IServiceScopeFactory ServiceScopeFactory { get; }

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace CaptainHook.Publishers
+﻿namespace CaptainHook.Publishers
 {
     public class CaptainHookPublisherRegistryOptions
     {

@@ -6,7 +6,7 @@ using Volo.Abp.DependencyInjection;
 
 namespace CaptainHook.Publishers.AzureDevOps.RocketChat
 {
-    public class GitPullRequestUpdatedHandler : ITransientDependency, IEventPublisher<GitPullRequestUpdatedPayload>
+    public class GitPullRequestUpdatedHandler : IEventPublisher<GitPullRequestUpdatedPayload>, ITransientDependency
     {
         protected IConfigurationProvider ConfigurationProvider { get; }
         protected IRocketChatClient RocketChatWebHookClient { get; }
@@ -19,7 +19,7 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat
 
         public async Task HandleEventAsync(HookEventToPublish<GitPullRequestUpdatedPayload> eventData)
         {
-            var configuration = ConfigurationProvider.GetConfigurationOrNull("RocketChat", eventData.Event.Id);
+            var configuration = ConfigurationProvider.GetConfigurationOrNull(AzureDevOpsRocketChatConsts.PublisherName, eventData.Event.Id);
             if (configuration == null)
             {
                 return;

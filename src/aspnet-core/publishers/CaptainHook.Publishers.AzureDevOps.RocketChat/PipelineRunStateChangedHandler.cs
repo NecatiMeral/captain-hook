@@ -1,55 +1,42 @@
-﻿//using CaptainHook.Publishers.AzureDevOps.RocketChat.Client;
-//using CaptainHook.Queue;
-//using CaptainHook.Receivers;
-//using CaptainHook.Receivers.AzureDevOps.Payload;
-//using CaptainHook.Receivers.Queue;
-//using System.Threading.Tasks;
-//using Volo.Abp.DependencyInjection;
-//using Volo.Abp.EventBus;
+﻿using CaptainHook.EventBus;
+using CaptainHook.Publishers.AzureDevOps.RocketChat.Client;
+using CaptainHook.Receivers.AzureDevOps.Payload;
+using System.Threading.Tasks;
+using Volo.Abp.DependencyInjection;
 
-//namespace CaptainHook.Publishers.AzureDevOps.RocketChat
-//{
-//    public class PipelineRunStateChangedHandler
-//        : IEventQueueHandler<WebHookHandledEvent<PipelineRunStateChangedPayload>>,
-//          ITransientDependency
-//    {
-//        protected IConfigurationProvider ConfigurationProvider { get; }
-//        protected IRocketChatClient RocketChatWebHookClient { get; }
+namespace CaptainHook.Publishers.AzureDevOps.RocketChat
+{
+    public class PipelineRunStateChangedHandler : IEventPublisher<PipelineRunStateChangedPayload>, ITransientDependency
+    {
+        protected IConfigurationProvider ConfigurationProvider { get; }
+        protected IRocketChatClient RocketChatWebHookClient { get; }
 
-//        public PipelineRunStateChangedHandler(IConfigurationProvider configurationProvider, IRocketChatClient rocketChatWebHookClient)
-//        {
-//            ConfigurationProvider = configurationProvider;
-//            RocketChatWebHookClient = rocketChatWebHookClient;
-//        }
+        public PipelineRunStateChangedHandler(IConfigurationProvider configurationProvider, IRocketChatClient rocketChatWebHookClient)
+        {
+            ConfigurationProvider = configurationProvider;
+            RocketChatWebHookClient = rocketChatWebHookClient;
+        }
 
-//        public async Task HandleEventAsync(WebHookHandledEvent<PipelineRunStateChangedPayload> eventData)
-//        {
-//            var configuration = ConfigurationProvider.GetConfigurationOrNull(eventData.EventType, eventData.Id);
-//            if (configuration == null)
-//            {
-//                return;
-//            }
+        public async Task HandleEventAsync(HookEventToPublish<PipelineRunStateChangedPayload> eventData)
+        {
+            var configuration = ConfigurationProvider.GetConfigurationOrNull(AzureDevOpsRocketChatConsts.PublisherName, eventData.Event.Id);
+            if (configuration == null)
+            {
+                return;
+            }
 
-//            //var repositoryAttachment = new MessageAttachmentDto
-//            //{
-//            //    Text = eventData.Payload.Resource.Description,
-//            //    Title = eventData.Payload.Resource.Title,
-//            //    TitleLink = eventData.Payload.Resource.Url.AbsoluteUri
-//            //};
+            var payload = eventData.Payload;
 
-//            //var message = new MessageDto
-//            //{
-//            //    BaseUrl = configuration.BaseUrl,
-//            //    Username = configuration.Username,
-//            //    Password = configuration.Password,
-//            //    Text = eventData.Payload.Message.Markdown,
-//            //    Alias = eventData.Payload.Resource.CreatedBy.DisplayName,
-//            //    Avatar = eventData.Payload.Resource.CreatedBy.ImageUrl.AbsoluteUri,
-//            //    Channel = "@nm",
-//            //    Attachments = new[] { repositoryAttachment }
-//            //};
+            var message = new MessageDto
+            {
+                BaseUrl = configuration.BaseUrl,
+                Username = configuration.Username,
+                Password = configuration.Password,
+                Text = payload.Message.Markdown,
+                Channel = "@nm"
+            };
 
-//            //await RocketChatWebHookClient.SendMessage(message);
-//        }
-//    }
-//}
+            await RocketChatWebHookClient.SendMessage(message);
+        }
+    }
+}

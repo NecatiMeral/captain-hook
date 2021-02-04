@@ -14,7 +14,7 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat
 
         public RocketChatApiOptions GetConfigurationOrNull(string name, string id)
         {
-            var section = Configuration.GetSection($"From:{name}:To:RocketChat.{id}");
+            var section = Configuration.GetSection($"CaptainHook:{name}:{id}");
 
             return section.Get<RocketChatApiOptions>();
         }

@@ -16,6 +16,13 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             context.Services.AddHttpClient();
+
+            Configure<CaptainHookPublisherRegistryOptions>(o =>
+            {
+                o.PublisherHandlers.GetOrAdd(AzureDevOpsConstants.ReceiverName, AzureDevOpsRocketChatConsts.PublisherName)
+                    .Append<GitPullRequestUpdatedHandler>(AzureDevOpsConstants.EventType.Code.PullRequestUpdated);
+                    
+            });
         }
 
         public override void OnApplicationShutdown(ApplicationShutdownContext context)

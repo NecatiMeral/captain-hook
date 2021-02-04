@@ -1,4 +1,4 @@
-﻿using CaptainHook.Queue;
+﻿using CaptainHook.EventBus;
 using Microsoft.Extensions.Options;
 using StackExchange.Redis;
 using System;
@@ -38,7 +38,7 @@ namespace CaptainHook.Receivers.Redis.Queue
             await sub.PublishAsync(channel, payloadJson);
         }
 
-        public async Task<IDisposable> SubscribeAsync<T>(string receiverName, string id, string eventType, Func<T, Task> handler)
+        public async Task<IDisposable> SubscribeAsync(string receiverName, string id, string eventType, Func<HookEvent, Task> handler)
         {
             var sub = ConnectionMultiplexer.GetSubscriber();
             var channel = $"{receiverName}-{id}-{eventType}";

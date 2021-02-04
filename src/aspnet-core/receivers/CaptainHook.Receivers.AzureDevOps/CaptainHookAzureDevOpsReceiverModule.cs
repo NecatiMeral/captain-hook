@@ -1,12 +1,14 @@
 ﻿using CaptainHook.Receivers.AzureDevOps.Code;
 using CaptainHook.Receivers.AzureDevOps.Pipelines;
 using Volo.Abp.AutoMapper;
+using Volo.Abp.EventBus;
 using Volo.Abp.Modularity;
 
 namespace CaptainHook.Receivers.AzureDevOps
 {
     [DependsOn(
-        typeof(AbpAutoMapperModule)
+        typeof(AbpAutoMapperModule),
+        typeof(AbpEventBusModule)
         )]
     public class CaptainHookAzureDevOpsReceiverModule : AbpModule
     {

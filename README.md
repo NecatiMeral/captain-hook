@@ -97,4 +97,4 @@ Project Link: [https://github.com/NecatiMeral/captain-hook](https://github.com/N
 [license-url]: https://github.com/NecatiMeral/captain-hook/blob/main/LICENSE.md
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/NecatiMeral
-[product-screenshot]: images/screenshot.png
+[product-screenshot]: images/architecture.png

@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Autofac" Version="4.2.0" />
+    <PackageReference Include="Volo.Abp.Autofac" Version="4.2.1" />
     <ProjectReference Include="..\..\src\CaptainHook.Application.Contracts\CaptainHook.Application.Contracts.csproj" />
     <ProjectReference Include="..\..\src\CaptainHook.EntityFrameworkCore.DbMigrations\CaptainHook.EntityFrameworkCore.DbMigrations.csproj" />
   </ItemGroup>

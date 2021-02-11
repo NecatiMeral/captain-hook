@@ -4,7 +4,7 @@ using CaptainHook.Receivers.AzureDevOps.Payload;
 using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
 
-namespace CaptainHook.Publishers.AzureDevOps.RocketChat
+namespace CaptainHook.Publishers.AzureDevOps.RocketChat.Publishers.Code
 {
     public class PipelineRunStateChangedHandler : IEventPublisher<PipelineRunStateChangedPayload>, ITransientDependency
     {

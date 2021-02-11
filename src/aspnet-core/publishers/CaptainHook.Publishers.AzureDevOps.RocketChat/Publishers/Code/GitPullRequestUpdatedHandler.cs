@@ -3,18 +3,24 @@ using CaptainHook.EventBus;
 using CaptainHook.Receivers.AzureDevOps.Payload;
 using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
+using Volo.Abp.ObjectMapping;
+using CaptainHook.Publishers.AzureDevOps.RocketChat.AzureDevOps;
 
-namespace CaptainHook.Publishers.AzureDevOps.RocketChat
+namespace CaptainHook.Publishers.AzureDevOps.RocketChat.Publishers.Code
 {
     public class GitPullRequestUpdatedHandler : IEventPublisher<GitPullRequestUpdatedPayload>, ITransientDependency
     {
         protected IConfigurationProvider ConfigurationProvider { get; }
-        protected IRocketChatClient RocketChatWebHookClient { get; }
+        protected IRocketChatClient RocketChatClient { get; }
+        protected IObjectMapper ObjectMapper { get; }
 
-        public GitPullRequestUpdatedHandler(IConfigurationProvider configurationProvider, IRocketChatClient rocketChatWebHookClient)
+        public GitPullRequestUpdatedHandler(IConfigurationProvider configurationProvider,
+            IRocketChatClient rocketChatClient,
+            IObjectMapper objectMapper)
         {
             ConfigurationProvider = configurationProvider;
-            RocketChatWebHookClient = rocketChatWebHookClient;
+            RocketChatClient = rocketChatClient;
+            ObjectMapper = objectMapper;
         }
 
         public async Task HandleEventAsync(HookEventToPublish<GitPullRequestUpdatedPayload> eventData)
@@ -33,6 +39,9 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat
                 TitleLink = payload.Resource.Url.AbsoluteUri
             };
 
+            // TODO: Determine which users / channels to notify
+            // Consider making this configurable (Collection-to-Channel, Project-to-Channel; Team-to-Channel)
+
             var message = new MessageDto
             {
                 BaseUrl = configuration.BaseUrl,
@@ -45,7 +54,7 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat
                 Attachments = new[] { repositoryAttachment }
             };
 
-            await RocketChatWebHookClient.SendMessage(message);
+            await RocketChatClient.SendMessage(message);
         }
     }
 }

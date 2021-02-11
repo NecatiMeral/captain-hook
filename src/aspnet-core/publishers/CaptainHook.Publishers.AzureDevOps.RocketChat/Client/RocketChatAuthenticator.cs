@@ -71,8 +71,12 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat.Client
 
                     return authResult;
                 }
+                else
+                {
+                    var message = string.Format("Failed to authenticate `{0}` @ `{1}`", username, baseUrl);
+                    throw new ApplicationException(message);
+                }
             }
-            throw new Exception("Fix me");
         }
 
         async Task SetUserPresence(AuthenticationResult auth, string status, string message)

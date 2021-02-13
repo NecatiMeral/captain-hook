@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.VisualStudio.Services.Common;
+using System.Threading.Tasks;
 
 namespace CaptainHook.Publishers.AzureDevOps.RocketChat.AzureDevOps.Authentication
 {
     public interface IAzureDevOpsAuthenticator
     {
+        Task<VssCredentials> CreateCredentials();
     }
 }

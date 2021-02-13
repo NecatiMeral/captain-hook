@@ -21,6 +21,7 @@ using CaptainHook.Receivers.AzureDevOps;
 using CaptainHook.Receivers;
 using CaptainHook.Publishers.AzureDevOps.RocketChat;
 using Volo.Abp.EventBus.RabbitMq;
+using Volo.Abp.Caching.StackExchangeRedis;
 
 namespace CaptainHook
 {
@@ -34,6 +35,7 @@ namespace CaptainHook
         typeof(AbpSwashbuckleModule),
         typeof(CaptainHookAzureDevOpsReceiverModule),
         typeof(CaptainHookPublishersAzureDevOpsRocketChatModule),
+        typeof(AbpCachingStackExchangeRedisModule),
         typeof(AbpEventBusRabbitMqModule)
     )]
     public class CaptainHookHttpApiHostModule : AbpModule

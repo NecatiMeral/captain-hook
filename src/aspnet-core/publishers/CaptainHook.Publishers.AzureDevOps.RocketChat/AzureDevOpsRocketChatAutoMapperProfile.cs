@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using CaptainHook.Publishers.AzureDevOps.RocketChat.AzureDevOps;
-using CaptainHook.Receivers.AzureDevOps.Payload;
+using Microsoft.VisualStudio.Services.Identity;
 
 namespace CaptainHook.Publishers.AzureDevOps.RocketChat
 {
@@ -8,11 +8,13 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat
     {
         public AzureDevOpsRocketChatAutoMapperProfile()
         {
-            CreateMap<GitUser, AzureDevOpsIdentity>()
+            CreateMap<Identity, AzureDevOpsIdentityDto>()
                 .ForMember(dest => dest.Id, map => map.MapFrom(src => src.Id))
                 .ForMember(dest => dest.DisplayName, map => map.MapFrom(src => src.DisplayName))
-                .ForMember(dest => dest.UniqueName, map => map.MapFrom(src => src.UniqueName))
-                .ForMember(dest => dest.ImageUrl, map => map.MapFrom(src => src.ImageUrl));
+                .ForMember(dest => dest.IsActive, map => map.MapFrom(src => src.IsActive))
+                .ForMember(dest => dest.IsContainer, map => map.MapFrom(src => src.IsContainer))
+                .ForMember(dest => dest.MemberIds, map => map.MapFrom(src => src.MemberIds))
+                .ForMember(dest => dest.Properties, map => map.MapFrom(src => src.Properties));
         }
     }
 }

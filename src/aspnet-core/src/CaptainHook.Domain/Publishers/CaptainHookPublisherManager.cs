@@ -105,7 +105,7 @@ namespace CaptainHook.Publishers
                             new[] { parameterType }
                         );
 
-                    await ((Task)method.Invoke(receiver, new[] { eventWrapper }));
+                    await (Task)method.Invoke(receiver, new[] { eventWrapper });
                 }
             }
             else

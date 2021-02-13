@@ -1,5 +1,9 @@
-﻿using CaptainHook.Publishers.AzureDevOps.RocketChat.Client;
+﻿using CaptainHook.Publishers.AzureDevOps.RocketChat.AzureDevOps;
+using CaptainHook.Publishers.AzureDevOps.RocketChat.AzureDevOps.Authentication;
+using CaptainHook.Publishers.AzureDevOps.RocketChat.Client;
+using CaptainHook.Publishers.AzureDevOps.RocketChat.Publishers.Code;
 using CaptainHook.Receivers.AzureDevOps;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp;
 using Volo.Abp.AutoMapper;
@@ -10,14 +14,17 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat
 {
     [DependsOn(
         typeof(CaptainHookAzureDevOpsReceiverModule),
-        typeof(AbpHttpClientModule)
+        typeof(AbpHttpClientModule),
+        typeof(AbpAutoMapperModule)
     )]
     public class CaptainHookPublishersAzureDevOpsRocketChatModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             context.Services.AddHttpClient();
+            var configuration = context.Services.GetConfiguration();
 
+            ConfigureAzureDevOps(configuration);
             ConfigurePublisherRegistry();
             ConfigureObjectMapper(context);
         }
@@ -32,13 +39,21 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat
             });
         }
 
+        public void ConfigureAzureDevOps(IConfiguration configuration)
+        {
+            // Make the options configurable per publisher instance
+            Configure<AzureDevOpsOptions>(configuration.GetSection("AzureDevOps"));
+
+            Configure<AzureDevOpsAuthenticationOptions>(configuration.GetSection("AzureDevOps:Authentication"));
+        }
+
         public void ConfigureObjectMapper(ServiceConfigurationContext context)
         {
             context.Services.AddAutoMapperObjectMapper<CaptainHookPublishersAzureDevOpsRocketChatModule>();
 
             Configure<AbpAutoMapperOptions>(options =>
             {
-                options.AddProfile<AzureDevOpsRocketChatAutoMapperProfile>(validate: true);
+                options.AddMaps<CaptainHookPublishersAzureDevOpsRocketChatModule>(validate: true);
             });
         }
 

@@ -1,10 +1,13 @@
 ﻿using CaptainHook.Publishers.AzureDevOps.RocketChat.Client;
 using CaptainHook.EventBus;
 using CaptainHook.Receivers.AzureDevOps.Payload;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.ObjectMapping;
 using CaptainHook.Publishers.AzureDevOps.RocketChat.AzureDevOps;
+using System.Linq;
+using System;
 
 namespace CaptainHook.Publishers.AzureDevOps.RocketChat.Publishers.Code
 {
@@ -13,14 +16,17 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat.Publishers.Code
         protected IConfigurationProvider ConfigurationProvider { get; }
         protected IRocketChatClient RocketChatClient { get; }
         protected IObjectMapper ObjectMapper { get; }
+        protected IAzureDevOpsService AzureDevOpsService { get; }
 
         public GitPullRequestUpdatedHandler(IConfigurationProvider configurationProvider,
             IRocketChatClient rocketChatClient,
-            IObjectMapper objectMapper)
+            IObjectMapper objectMapper,
+            IAzureDevOpsService azureDevOpsService)
         {
             ConfigurationProvider = configurationProvider;
             RocketChatClient = rocketChatClient;
             ObjectMapper = objectMapper;
+            AzureDevOpsService = azureDevOpsService;
         }
 
         public async Task HandleEventAsync(HookEventToPublish<GitPullRequestUpdatedPayload> eventData)
@@ -32,6 +38,25 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat.Publishers.Code
             }
 
             var payload = eventData.Payload;
+
+            var identities = await AzureDevOpsService.GetAndIterateIdentitiesAsync(
+                payload.ResourceContainers.Collection.BaseUrl,
+                payload.Resource.Reviewers.Select(x => x.Id).ToArray()
+            );
+
+            var mails = identities
+                .Select(x => x.Properties.GetOrDefault(AzureDevOpsRocketChatConsts.Identity.MailPropertyName)?.ToString())
+                .Where(x => !x.IsNullOrWhiteSpace())
+                .ToArray();
+
+            var users = await RocketChatClient.GetUsersByEmailAsync(new GetRocketChatUsersByEmailInputDto
+            {
+                BaseUrl = configuration.BaseUrl,
+                Username = configuration.Username,
+                Password = configuration.Password,
+                Emails = mails
+            });
+
             var repositoryAttachment = new MessageAttachmentDto
             {
                 Text = payload.Resource.Description,
@@ -42,7 +67,7 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat.Publishers.Code
             // TODO: Determine which users / channels to notify
             // Consider making this configurable (Collection-to-Channel, Project-to-Channel; Team-to-Channel)
 
-            var message = new MessageDto
+            var messageTemplate = new MessageDto
             {
                 BaseUrl = configuration.BaseUrl,
                 Username = configuration.Username,
@@ -50,11 +75,14 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat.Publishers.Code
                 Text = payload.Message.Markdown,
                 Alias = payload.Resource.CreatedBy.DisplayName,
                 Avatar = payload.Resource.CreatedBy.ImageUrl.AbsoluteUri,
-                Channel = "@nm",
                 Attachments = new[] { repositoryAttachment }
             };
 
-            await RocketChatClient.SendMessage(message);
+            foreach (var user in users)
+            {
+                messageTemplate.Channel = $"@{user.Username}";
+                await RocketChatClient.SendMessage(messageTemplate);
+            }
         }
     }
 }

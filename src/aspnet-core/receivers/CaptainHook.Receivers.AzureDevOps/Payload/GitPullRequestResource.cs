@@ -103,10 +103,7 @@ namespace CaptainHook.Receivers.AzureDevOps.Payload
         /// Pull Request Reviewers
         /// </summary>
         [JsonPropertyName("reviewers")]
-        public Collection<GitReviewer> Reviewers
-        {
-            get { return _reviewers; }
-        }
+        public GitReviewer[] Reviewers { get; set; }
 
         /// <summary>
         /// Pull Request Url

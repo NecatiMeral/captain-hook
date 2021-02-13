@@ -15,7 +15,7 @@ namespace CaptainHook.Receivers.AzureDevOps.Payload
         /// The git user Id.
         /// </summary>
         [JsonPropertyName("id")]
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
         /// The git user display name.

@@ -1,6 +1,9 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.Services.Common;
 using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
 
@@ -32,6 +35,23 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat.AzureDevOps.Authenticati
             }
 
             return Task.FromResult(credentials);
+        }
+
+        public Task AuthenticateHttpClient(HttpClient httpClient)
+        {
+            if (options.Mode != AuthMode.Pat)
+            {
+                throw new NotSupportedException("The HttpClient can only used with a PAT.");
+            }
+
+            var pat = Convert.ToBase64String(Encoding.ASCII.GetBytes(
+                string.Format("{0}:{1}", string.Empty, options.Pat)
+            ));
+
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", pat);
+
+            return Task.CompletedTask;
         }
     }
 }

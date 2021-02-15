@@ -8,5 +8,6 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat.AzureDevOps
         Task<AzureDevOpsIdentityDto> GetIdentityAsync(Uri collectionUri, Guid identityId);
         Task<AzureDevOpsIdentityDto[]> GetIdentitiesAsync(Uri collectionUri, Guid[] identityIds);
         Task<AzureDevOpsIdentityDto[]> GetAndIterateIdentitiesAsync(Uri collectionUri, Guid[] identityIds);
+        Task<IdentityImageDto> DownloadIdentityImageAsync(Uri collectionUri, Guid identityId);
     }
 }

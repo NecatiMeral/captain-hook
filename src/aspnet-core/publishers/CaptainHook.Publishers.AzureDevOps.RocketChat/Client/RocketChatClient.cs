@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Net.Mime;
+using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Volo.Abp.Caching;
 using Volo.Abp.DependencyInjection;
+using Volo.Abp.Json;
 
 namespace CaptainHook.Publishers.AzureDevOps.RocketChat.Client
 {
@@ -15,14 +18,17 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat.Client
         protected IHttpClientFactory HttpClientFactory { get; }
         protected IRocketChatAuthenticator Authenticator { get; }
         protected IDistributedCache<RocketChatUserDto> UserCache { get; }
+        protected IJsonSerializer JsonSerializer { get; }
 
         public RocketChatClient(IHttpClientFactory httpClientFactory,
             IRocketChatAuthenticator authenticator,
-            IDistributedCache<RocketChatUserDto> userCache)
+            IDistributedCache<RocketChatUserDto> userCache,
+            IJsonSerializer jsonSerializer)
         {
             HttpClientFactory = httpClientFactory;
             Authenticator = authenticator;
             UserCache = userCache;
+            JsonSerializer = jsonSerializer;
         }
 
         public async Task SendMessage(MessageDto message)
@@ -31,7 +37,9 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat.Client
             {
                 await Authenticator.AuthenticateAsync(client, message.BaseUrl, message.Username, message.Password);
 
-                var response = await client.PostAsJsonAsync("api/v1/chat.postMessage", message);
+                var payload = JsonSerializer.Serialize(message);
+                var content = new StringContent(payload, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("api/v1/chat.postMessage", content);
                 if (!response.IsSuccessStatusCode)
                 {
                     var contentMessage = await response.Content.ReadAsStringAsync();

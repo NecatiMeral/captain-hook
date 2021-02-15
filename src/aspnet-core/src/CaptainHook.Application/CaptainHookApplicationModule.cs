@@ -1,4 +1,6 @@
-﻿using Volo.Abp.AutoMapper;
+﻿using FileSignatures;
+using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
 
 namespace CaptainHook
@@ -16,6 +18,8 @@ namespace CaptainHook
             {
                 options.AddMaps<CaptainHookApplicationModule>();
             });
+
+            context.Services.AddSingleton<IFileFormatInspector, FileFormatInspector>();
         }
     }
 }

@@ -115,5 +115,24 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat.AzureDevOps
 
             return null;
         }
+
+        public async Task<IdentityImageDto> DownloadIdentityImageAsync(Uri collectionUri, Guid identityId)
+        {
+            using (var client = await ConnectionAccessor.CreateHttpClientAsync(collectionUri))
+            {
+                using (var response = await client.GetAsync("_api/_common/identityImage?id=" + identityId))
+                {
+                    response.EnsureSuccessStatusCode();
+
+                    var payload = await response.Content.ReadAsByteArrayAsync();
+
+                    return new IdentityImageDto
+                    {
+                        Payload = payload,
+                        MediaType = response.Content.Headers.ContentType.MediaType
+                    };
+                }
+            }
+        }
     }
 }

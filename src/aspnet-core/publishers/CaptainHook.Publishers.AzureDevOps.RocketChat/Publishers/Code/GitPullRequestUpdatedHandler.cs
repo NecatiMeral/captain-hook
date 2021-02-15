@@ -1,13 +1,12 @@
 ﻿using CaptainHook.Publishers.AzureDevOps.RocketChat.Client;
 using CaptainHook.EventBus;
 using CaptainHook.Receivers.AzureDevOps.Payload;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
-using Volo.Abp.ObjectMapping;
-using CaptainHook.Publishers.AzureDevOps.RocketChat.AzureDevOps;
 using System.Linq;
-using System;
+using CaptainHook.Publishers.AzureDevOps.RocketChat.Services;
+using CaptainHook.Images;
+using CaptainHook.Receivers.AzureDevOps;
 
 namespace CaptainHook.Publishers.AzureDevOps.RocketChat.Publishers.Code
 {
@@ -15,18 +14,18 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat.Publishers.Code
     {
         protected IConfigurationProvider ConfigurationProvider { get; }
         protected IRocketChatClient RocketChatClient { get; }
-        protected IObjectMapper ObjectMapper { get; }
-        protected IAzureDevOpsService AzureDevOpsService { get; }
+        protected IIdentityToChatUserMapper IdentityToChatUserMapper { get; }
+        protected IImageUriFactory ImageUriFactory { get; }
 
         public GitPullRequestUpdatedHandler(IConfigurationProvider configurationProvider,
             IRocketChatClient rocketChatClient,
-            IObjectMapper objectMapper,
-            IAzureDevOpsService azureDevOpsService)
+            IIdentityToChatUserMapper identityToChatUserMapper,
+            IImageUriFactory imageUriFactory)
         {
             ConfigurationProvider = configurationProvider;
             RocketChatClient = rocketChatClient;
-            ObjectMapper = objectMapper;
-            AzureDevOpsService = azureDevOpsService;
+            IdentityToChatUserMapper = identityToChatUserMapper;
+            ImageUriFactory = imageUriFactory;
         }
 
         public async Task HandleEventAsync(HookEventToPublish<GitPullRequestUpdatedPayload> eventData)
@@ -39,33 +38,21 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat.Publishers.Code
 
             var payload = eventData.Payload;
 
-            var identities = await AzureDevOpsService.GetAndIterateIdentitiesAsync(
+            var users = await IdentityToChatUserMapper.GetUsersAsync(
                 payload.ResourceContainers.Collection.BaseUrl,
-                payload.Resource.Reviewers.Select(x => x.Id).ToArray()
+                payload.Resource.Reviewers.Select(x => x.Id).ToArray(),
+                new RocketChatInputDto
+                {
+                    BaseUrl = configuration.BaseUrl,
+                    Username = configuration.Username,
+                    Password = configuration.Password
+                }
             );
-
-            var mails = identities
-                .Select(x => x.Properties.GetOrDefault(AzureDevOpsRocketChatConsts.Identity.MailPropertyName)?.ToString())
-                .Where(x => !x.IsNullOrWhiteSpace())
-                .ToArray();
-
-            var users = await RocketChatClient.GetUsersByEmailAsync(new GetRocketChatUsersByEmailInputDto
-            {
-                BaseUrl = configuration.BaseUrl,
-                Username = configuration.Username,
-                Password = configuration.Password,
-                Emails = mails
-            });
-
-            var repositoryAttachment = new MessageAttachmentDto
-            {
-                Text = payload.Resource.Description,
-                Title = payload.Resource.Title,
-                TitleLink = payload.Resource.Url.AbsoluteUri
-            };
 
             // TODO: Determine which users / channels to notify
             // Consider making this configurable (Collection-to-Channel, Project-to-Channel; Team-to-Channel)
+            var avatarId = IdentityImageProvider.GetImageId(payload.Resource.CreatedBy.ImageUrl);
+            var avatarUri = await ImageUriFactory.GetImageUriAsync(AzureDevOpsConstants.ReceiverName, avatarId);
 
             var messageTemplate = new MessageDto
             {
@@ -74,8 +61,7 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat.Publishers.Code
                 Password = configuration.Password,
                 Text = payload.Message.Markdown,
                 Alias = payload.Resource.CreatedBy.DisplayName,
-                Avatar = payload.Resource.CreatedBy.ImageUrl.AbsoluteUri,
-                Attachments = new[] { repositoryAttachment }
+                Avatar = avatarUri.AbsoluteUri
             };
 
             foreach (var user in users)

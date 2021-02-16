@@ -15,7 +15,7 @@
   <h3 align="center">Captain Hook</h3>
 
   <p align="center">
-    WebHook notification aggregator and redirector
+    Extensible Webhook-processor host
     <br />
     <a href="https://github.com/NecatiMeral/captain-hook"><strong>Explore the docs »</strong></a>
     <br />

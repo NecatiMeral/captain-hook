@@ -4,7 +4,6 @@ using CaptainHook.Receivers.AzureDevOps;
 using System;
 using System.Threading.Tasks;
 using System.Web;
-using Volo.Abp.Caching;
 using Volo.Abp.DependencyInjection;
 
 namespace CaptainHook.Publishers.AzureDevOps.RocketChat.Services
@@ -28,10 +27,11 @@ namespace CaptainHook.Publishers.AzureDevOps.RocketChat.Services
 
         public async Task<ImageDto> GetImageAsync(string imageId)
         {
+            imageId = HttpUtility.UrlDecode(imageId);
             var segments = imageId.Split('|');
             if (segments.Length == 2)
             {
-                var decodedUri = System.Web.HttpUtility.UrlDecode(segments[0].EnsureEndsWith('/'));
+                var decodedUri = segments[0].EnsureEndsWith('/');
                 var collectionUrl = new Uri(decodedUri);
                 var identifier = Guid.Parse(segments[1]);
 

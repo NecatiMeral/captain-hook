@@ -18,7 +18,7 @@ namespace CaptainHook.Images
         public Task<Uri> GetImageUriAsync(string providerKey, string imageId)
         {
             var builder = new UriBuilder(SelfUrl);
-            builder.Path = $"api/images/show/{HttpUtility.UrlEncode(providerKey)}|{HttpUtility.UrlEncode(imageId)}";
+            builder.Path = $"api/images/show/{providerKey}/{HttpUtility.UrlEncode(imageId)}";
 
             return Task.FromResult(builder.Uri);
         }

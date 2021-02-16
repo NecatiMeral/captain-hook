@@ -9,7 +9,7 @@ namespace CaptainHook
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApplication<CaptainHookUnifiedHostModule>();
+            services.AddApplication<CaptainHookReceiverHostModule>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)

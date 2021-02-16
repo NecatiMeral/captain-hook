@@ -8,14 +8,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using CaptainHook.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Authentication.JwtBearer;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
-using Volo.Abp.Swashbuckle;
 using Volo.Abp.VirtualFileSystem;
 using CaptainHook.Receivers.AzureDevOps;
 using CaptainHook.Receivers;
@@ -32,13 +30,12 @@ namespace CaptainHook
         typeof(CaptainHookEntityFrameworkCoreDbMigrationsModule),
         typeof(AbpAspNetCoreAuthenticationJwtBearerModule),
         typeof(AbpAspNetCoreSerilogModule),
-        typeof(AbpSwashbuckleModule),
         typeof(CaptainHookAzureDevOpsReceiverModule),
         typeof(CaptainHookPublishersAzureDevOpsRocketChatModule),
         typeof(AbpCachingStackExchangeRedisModule),
         typeof(AbpEventBusRabbitMqModule)
     )]
-    public class CaptainHookHttpApiHostModule : AbpModule
+    public class CaptainHookPublisherHostModule : AbpModule
     {
         private const string DefaultCorsPolicyName = "Default";
 
@@ -52,7 +49,6 @@ namespace CaptainHook
             ConfigureVirtualFileSystem(context);
             ConfigureWebHookReceivers(configuration);
             ConfigureCors(context, configuration);
-            ConfigureSwaggerServices(context);
         }
 
         private void ConfigureVirtualFileSystem(ServiceConfigurationContext context)
@@ -94,16 +90,6 @@ namespace CaptainHook
                         ServerCertificateCustomValidationCallback =
                             HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
                     };
-                });
-        }
-
-        private static void ConfigureSwaggerServices(ServiceConfigurationContext context)
-        {
-            context.Services.AddSwaggerGen(
-                options =>
-                {
-                    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Azure DevOps CaptainHook API", Version = "v1" });
-                    options.DocInclusionPredicate((docName, description) => true);
                 });
         }
 
@@ -157,12 +143,6 @@ namespace CaptainHook
             app.UseJwtTokenMiddleware();
 
             app.UseAuthorization();
-
-            app.UseSwagger();
-            app.UseAbpSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Azure DevOps CaptainHook API");
-            });
 
             app.UseAuditing();
             app.UseAbpSerilogEnrichers();

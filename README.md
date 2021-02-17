@@ -9,7 +9,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/NecatiMeral/captain-hook">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="images/logo/facebook_cover_photo_2.png" alt="Logo" width="100%">
   </a>
 
   <h3 align="center">Captain Hook</h3>

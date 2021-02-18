@@ -39,21 +39,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptainHook.Unified.Host", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "app", "app", "{366C8D29-FC5F-4D3A-B3DF-BBF323B6BD07}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "receivers", "receivers", "{A803D666-2647-4ED7-A3D1-DD844F0D2222}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptainHook.AzureDevOps.RocketChat.Publisher", "integrations\CaptainHook.AzureDevOps.RocketChat.Publishers\CaptainHook.AzureDevOps.RocketChat.Publisher.csproj", "{99BFB72A-7FA4-45D7-BDCB-8622B8A9FFB6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "publishers", "publishers", "{9ACF93E0-209E-4C51-B5E3-669B9F1F7172}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptainHook.AzureDevOps.RocketChat.Publishers", "publishers\CaptainHook.AzureDevOps.RocketChat.Publishers\CaptainHook.AzureDevOps.RocketChat.Publishers.csproj", "{99BFB72A-7FA4-45D7-BDCB-8622B8A9FFB6}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptainHook.AzureDevOps.Receivers", "receivers\CaptainHook.AzureDevOps.Receivers\CaptainHook.AzureDevOps.Receivers.csproj", "{C176B170-DCCB-4BEC-B2F5-F5F678BE4B6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptainHook.AzureDevOps.Receiver", "integrations\CaptainHook.AzureDevOps.Receivers\CaptainHook.AzureDevOps.Receiver.csproj", "{C176B170-DCCB-4BEC-B2F5-F5F678BE4B6A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptainHook.Publisher.Host", "app\CaptainHook.Publisher.Host\CaptainHook.Publisher.Host.csproj", "{789C2D6C-E885-49CF-AD1C-3AB50CC1AED0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptainHook.Receiver.Host", "app\CaptainHook.Receiver.Host\CaptainHook.Receiver.Host.csproj", "{B1029E35-98F7-4C77-AC39-21D53D8291FC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "modules", "modules", "{72045BEE-AC31-42A6-A15E-F8D0C8C92245}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "integrations", "integrations", "{72045BEE-AC31-42A6-A15E-F8D0C8C92245}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptainHook.AzureDevOps", "modules\CaptainHook.AzureDevOps\CaptainHook.AzureDevOps.csproj", "{CC6744EA-29C5-4DCF-9C03-7C5C00608A6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptainHook.AzureDevOps", "integrations\CaptainHook.AzureDevOps\CaptainHook.AzureDevOps.csproj", "{CC6744EA-29C5-4DCF-9C03-7C5C00608A6A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptainHook.RocketChat", "integrations\CaptainHook.RocketChat\CaptainHook.RocketChat.csproj", "{09EEBA37-18C4-409C-85ED-316C72CAC53F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptainHook.EventBus.Local", "src\CaptainHook.EventBus.Local\CaptainHook.EventBus.Local.csproj", "{F27A7A03-7A5B-43D6-8B1B-77A04CC30ACB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptainHook.EventBus.Distributed", "src\CaptainHook.EventBus.RabbitMQ\CaptainHook.EventBus.Distributed.csproj", "{706D3194-B0AA-472C-B8F1-5305C93312CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -141,6 +143,18 @@ Global
 		{CC6744EA-29C5-4DCF-9C03-7C5C00608A6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC6744EA-29C5-4DCF-9C03-7C5C00608A6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC6744EA-29C5-4DCF-9C03-7C5C00608A6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09EEBA37-18C4-409C-85ED-316C72CAC53F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09EEBA37-18C4-409C-85ED-316C72CAC53F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09EEBA37-18C4-409C-85ED-316C72CAC53F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09EEBA37-18C4-409C-85ED-316C72CAC53F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F27A7A03-7A5B-43D6-8B1B-77A04CC30ACB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F27A7A03-7A5B-43D6-8B1B-77A04CC30ACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F27A7A03-7A5B-43D6-8B1B-77A04CC30ACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F27A7A03-7A5B-43D6-8B1B-77A04CC30ACB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{706D3194-B0AA-472C-B8F1-5305C93312CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{706D3194-B0AA-472C-B8F1-5305C93312CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{706D3194-B0AA-472C-B8F1-5305C93312CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{706D3194-B0AA-472C-B8F1-5305C93312CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -161,11 +175,14 @@ Global
 		{EF480016-9127-4916-8735-D2466BDBC582} = {04DBDB01-70F4-4E06-B468-8F87850B22BE}
 		{AA94D832-1CCC-4715-95A9-A483F23A1A5D} = {366C8D29-FC5F-4D3A-B3DF-BBF323B6BD07}
 		{748584B1-BA69-4F6A-81AA-F4BDE6BCE29D} = {366C8D29-FC5F-4D3A-B3DF-BBF323B6BD07}
-		{99BFB72A-7FA4-45D7-BDCB-8622B8A9FFB6} = {9ACF93E0-209E-4C51-B5E3-669B9F1F7172}
-		{C176B170-DCCB-4BEC-B2F5-F5F678BE4B6A} = {A803D666-2647-4ED7-A3D1-DD844F0D2222}
+		{99BFB72A-7FA4-45D7-BDCB-8622B8A9FFB6} = {72045BEE-AC31-42A6-A15E-F8D0C8C92245}
+		{C176B170-DCCB-4BEC-B2F5-F5F678BE4B6A} = {72045BEE-AC31-42A6-A15E-F8D0C8C92245}
 		{789C2D6C-E885-49CF-AD1C-3AB50CC1AED0} = {366C8D29-FC5F-4D3A-B3DF-BBF323B6BD07}
 		{B1029E35-98F7-4C77-AC39-21D53D8291FC} = {366C8D29-FC5F-4D3A-B3DF-BBF323B6BD07}
 		{CC6744EA-29C5-4DCF-9C03-7C5C00608A6A} = {72045BEE-AC31-42A6-A15E-F8D0C8C92245}
+		{09EEBA37-18C4-409C-85ED-316C72CAC53F} = {72045BEE-AC31-42A6-A15E-F8D0C8C92245}
+		{F27A7A03-7A5B-43D6-8B1B-77A04CC30ACB} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
+		{706D3194-B0AA-472C-B8F1-5305C93312CF} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}

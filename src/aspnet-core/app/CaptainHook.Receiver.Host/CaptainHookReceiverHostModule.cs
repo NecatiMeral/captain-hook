@@ -15,10 +15,11 @@ using Volo.Abp.Autofac;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.VirtualFileSystem;
-using CaptainHook.AzureDevOps.Receivers;
+using CaptainHook.AzureDevOps.Receiver;
 using Volo.Abp.EventBus.RabbitMq;
 using Volo.Abp.Caching.StackExchangeRedis;
 using CaptainHook.Receivers;
+using CaptainHook.EventBus.RabbitMQ;
 
 namespace CaptainHook
 {
@@ -31,7 +32,8 @@ namespace CaptainHook
         typeof(AbpAspNetCoreSerilogModule),
         typeof(CaptainHookAzureDevOpsReceiverModule),
         typeof(AbpCachingStackExchangeRedisModule),
-        typeof(AbpEventBusRabbitMqModule)
+        typeof(AbpEventBusRabbitMqModule),
+        typeof(CaptainHookDistributedEventBusModule)
     )]
     public class CaptainHookReceiverHostModule : AbpModule
     {

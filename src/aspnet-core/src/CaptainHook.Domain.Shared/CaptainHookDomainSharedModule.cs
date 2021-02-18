@@ -1,4 +1,5 @@
 ﻿using CaptainHook.Localization;
+using Volo.Abp.EventBus;
 using Volo.Abp.Localization;
 using Volo.Abp.Localization.ExceptionHandling;
 using Volo.Abp.Modularity;
@@ -9,7 +10,8 @@ using Volo.Abp.VirtualFileSystem;
 namespace CaptainHook
 {
     [DependsOn(
-        typeof(AbpValidationModule)
+        typeof(AbpValidationModule),
+        typeof(AbpEventBusModule)
         )]
     public class CaptainHookDomainSharedModule : AbpModule
     {

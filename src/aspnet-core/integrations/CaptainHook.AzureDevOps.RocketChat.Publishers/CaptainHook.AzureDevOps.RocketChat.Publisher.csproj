@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FileSignatures" Version="4.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
+    <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
+    <PackageReference Include="Volo.Abp.Http.Client" Version="4.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\integrations\CaptainHook.AzureDevOps\CaptainHook.AzureDevOps.csproj" />
+    <ProjectReference Include="..\..\integrations\CaptainHook.RocketChat\CaptainHook.RocketChat.csproj" />
+    <ProjectReference Include="..\..\src\CaptainHook.Domain.Shared\CaptainHook.Domain.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

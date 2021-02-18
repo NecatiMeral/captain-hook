@@ -20,9 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\receivers\CaptainHook.AzureDevOps.Receivers\CaptainHook.AzureDevOps.Receivers.csproj" />
+    <ProjectReference Include="..\..\integrations\CaptainHook.AzureDevOps.Receivers\CaptainHook.AzureDevOps.Receiver.csproj" />
     <ProjectReference Include="..\..\src\CaptainHook.Application\CaptainHook.Application.csproj" />
     <ProjectReference Include="..\..\src\CaptainHook.EntityFrameworkCore.DbMigrations\CaptainHook.EntityFrameworkCore.DbMigrations.csproj" />
+    <ProjectReference Include="..\..\src\CaptainHook.EventBus.RabbitMQ\CaptainHook.EventBus.Distributed.csproj" />
     <ProjectReference Include="..\..\src\CaptainHook.HttpApi\CaptainHook.HttpApi.csproj" />
   </ItemGroup>
 

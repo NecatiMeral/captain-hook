@@ -15,10 +15,10 @@ using Volo.Abp.Autofac;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.VirtualFileSystem;
-using CaptainHook.Receivers.AzureDevOps;
-using CaptainHook.Receivers;
+using CaptainHook.AzureDevOps.Receivers;
 using Volo.Abp.EventBus.RabbitMq;
 using Volo.Abp.Caching.StackExchangeRedis;
+using CaptainHook.Receivers;
 
 namespace CaptainHook
 {

@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using CaptainHook.EntityFrameworkCore;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Authentication.JwtBearer;
 using Volo.Abp.AspNetCore.Serilog;
@@ -15,11 +14,11 @@ using Volo.Abp.Autofac;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.VirtualFileSystem;
-using CaptainHook.Receivers.AzureDevOps;
-using CaptainHook.Receivers;
-using CaptainHook.Publishers.AzureDevOps.RocketChat;
 using Volo.Abp.EventBus.RabbitMq;
 using Volo.Abp.Caching.StackExchangeRedis;
+using CaptainHook.EntityFrameworkCore;
+using CaptainHook.Receivers;
+using CaptainHook.AzureDevOps.RocketChat.Publishers;
 
 namespace CaptainHook
 {
@@ -30,8 +29,7 @@ namespace CaptainHook
         typeof(CaptainHookEntityFrameworkCoreDbMigrationsModule),
         typeof(AbpAspNetCoreAuthenticationJwtBearerModule),
         typeof(AbpAspNetCoreSerilogModule),
-        typeof(CaptainHookAzureDevOpsReceiverModule),
-        typeof(CaptainHookPublishersAzureDevOpsRocketChatModule),
+        typeof(CaptainHookAzureDevOpsRocketChatPublishersModule),
         typeof(AbpCachingStackExchangeRedisModule),
         typeof(AbpEventBusRabbitMqModule)
     )]

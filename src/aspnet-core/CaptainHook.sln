@@ -43,13 +43,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "receivers", "receivers", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "publishers", "publishers", "{9ACF93E0-209E-4C51-B5E3-669B9F1F7172}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptainHook.Publishers.AzureDevOps.RocketChat", "publishers\CaptainHook.Publishers.AzureDevOps.RocketChat\CaptainHook.Publishers.AzureDevOps.RocketChat.csproj", "{99BFB72A-7FA4-45D7-BDCB-8622B8A9FFB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptainHook.AzureDevOps.RocketChat.Publishers", "publishers\CaptainHook.AzureDevOps.RocketChat.Publishers\CaptainHook.AzureDevOps.RocketChat.Publishers.csproj", "{99BFB72A-7FA4-45D7-BDCB-8622B8A9FFB6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptainHook.Receivers.AzureDevOps", "receivers\CaptainHook.Receivers.AzureDevOps\CaptainHook.Receivers.AzureDevOps.csproj", "{C176B170-DCCB-4BEC-B2F5-F5F678BE4B6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptainHook.AzureDevOps.Receivers", "receivers\CaptainHook.AzureDevOps.Receivers\CaptainHook.AzureDevOps.Receivers.csproj", "{C176B170-DCCB-4BEC-B2F5-F5F678BE4B6A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptainHook.Publisher.Host", "app\CaptainHook.Publisher.Host\CaptainHook.Publisher.Host.csproj", "{789C2D6C-E885-49CF-AD1C-3AB50CC1AED0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptainHook.Receiver.Host", "app\CaptainHook.Receiver.Host\CaptainHook.Receiver.Host.csproj", "{B1029E35-98F7-4C77-AC39-21D53D8291FC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "modules", "modules", "{72045BEE-AC31-42A6-A15E-F8D0C8C92245}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptainHook.AzureDevOps", "modules\CaptainHook.AzureDevOps\CaptainHook.AzureDevOps.csproj", "{CC6744EA-29C5-4DCF-9C03-7C5C00608A6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -133,6 +137,10 @@ Global
 		{B1029E35-98F7-4C77-AC39-21D53D8291FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1029E35-98F7-4C77-AC39-21D53D8291FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1029E35-98F7-4C77-AC39-21D53D8291FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC6744EA-29C5-4DCF-9C03-7C5C00608A6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC6744EA-29C5-4DCF-9C03-7C5C00608A6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC6744EA-29C5-4DCF-9C03-7C5C00608A6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC6744EA-29C5-4DCF-9C03-7C5C00608A6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -157,6 +165,7 @@ Global
 		{C176B170-DCCB-4BEC-B2F5-F5F678BE4B6A} = {A803D666-2647-4ED7-A3D1-DD844F0D2222}
 		{789C2D6C-E885-49CF-AD1C-3AB50CC1AED0} = {366C8D29-FC5F-4D3A-B3DF-BBF323B6BD07}
 		{B1029E35-98F7-4C77-AC39-21D53D8291FC} = {366C8D29-FC5F-4D3A-B3DF-BBF323B6BD07}
+		{CC6744EA-29C5-4DCF-9C03-7C5C00608A6A} = {72045BEE-AC31-42A6-A15E-F8D0C8C92245}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}

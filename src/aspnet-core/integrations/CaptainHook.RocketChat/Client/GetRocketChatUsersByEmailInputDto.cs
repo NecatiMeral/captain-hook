@@ -1,6 +1,6 @@
 ﻿namespace CaptainHook.RocketChat
 {
-    public class GetRocketChatUsersByEmailInputDto : RocketChatInputDto
+    public class GetRocketChatUsersByEmailInputDto
     {
         public string[] Emails { get; set; }
     }

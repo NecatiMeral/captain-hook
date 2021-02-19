@@ -34,7 +34,7 @@ namespace CaptainHook.RocketChat
         {
             using (var client = HttpClientFactory.CreateClient("RocketChat"))
             {
-                await Authenticator.AuthenticateAsync(client, message.BaseUrl, message.Username, message.Password);
+                await Authenticator.AuthenticateAsync(client);
 
                 var payload = JsonSerializer.Serialize(message);
                 var content = new StringContent(payload, Encoding.UTF8, "application/json");
@@ -71,9 +71,6 @@ namespace CaptainHook.RocketChat
             {
                 var query = new GetRocketChatUsersByEmailInputDto
                 {
-                    BaseUrl = input.BaseUrl,
-                    Username = input.Username,
-                    Password = input.Password,
                     Emails = missingUserKeys
                 };
 
@@ -105,7 +102,7 @@ namespace CaptainHook.RocketChat
             // TODO: Create a proper filter query. For now it's easier to just fetch all users
             using (var client = HttpClientFactory.CreateClient("RocketChat"))
             {
-                await Authenticator.AuthenticateAsync(client, input.BaseUrl, input.Username, input.Password);
+                await Authenticator.AuthenticateAsync(client);
 
                 var response = await client.GetFromJsonAsync<UserListResponse>("api/v1/users.list");
 
@@ -124,7 +121,7 @@ namespace CaptainHook.RocketChat
 
             using (var client = HttpClientFactory.CreateClient("RocketChat"))
             {
-                await Authenticator.AuthenticateAsync(client, input.BaseUrl, input.Username, input.Password);
+                await Authenticator.AuthenticateAsync(client);
 
                 var queryParameter = string.Format(queryTemplate, input.Email);
                 var response = await client.GetFromJsonAsync<UserListResponse>($"api/v1/users.list?{queryParameter}");

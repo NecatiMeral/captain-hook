@@ -1,6 +1,8 @@
-﻿namespace CaptainHook.EventBus
+﻿using CaptainHook.Publishers;
+
+namespace CaptainHook.EventBus
 {
-    public class HookEvent
+    public class HookEvent : IHookEventContext
     {
         public string ReceiverName { get; set; }
         public string Id { get; set; }

@@ -1,12 +1,12 @@
 ﻿using CaptainHook.AzureDevOps.Payload;
-using CaptainHook.EventBus;
 using Volo.Abp.DependencyInjection;
+using Volo.Abp.EventBus.Distributed;
 
 namespace CaptainHook.AzureDevOps.Receiver.Code
 {
     public class GitPullRequestCreatedHandler : AzureDevOpsHandler<GitPullRequestCreatedPayload>, ITransientDependency
     {
-        public GitPullRequestCreatedHandler(ICaptainHookEventBus bus)
+        public GitPullRequestCreatedHandler(IDistributedEventBus bus)
             : base(bus, AzureDevOpsConstants.EventType.Code.PullRequestCreated)
         {
         }

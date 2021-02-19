@@ -2,6 +2,7 @@
 using CaptainHook.AzureDevOps.Client.Authentication;
 using CaptainHook.AzureDevOps.RocketChat.Publisher.Code;
 using CaptainHook.Publishers;
+using CaptainHook.RocketChat;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp;
@@ -33,6 +34,7 @@ namespace CaptainHook.AzureDevOps.RocketChat.Publisher
             Configure<CaptainHookPublisherRegistryOptions>(o =>
             {
                 o.PublisherHandlers.GetOrAdd(AzureDevOpsConstants.ReceiverName, AzureDevOpsRocketChatConsts.PublisherName)
+                    .AppendScopedDependency<IRocketChatClientOptionsProvider>()
                     .Append<GitPullRequestUpdatedHandler>(AzureDevOpsConstants.EventType.Code.PullRequestUpdated)
                     .Append<PipelineRunStateChangedHandler>(AzureDevOpsConstants.EventType.Pipelines.RunStateChanged);
             });

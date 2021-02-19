@@ -1,5 +1,5 @@
-﻿using CaptainHook.EventBus;
-using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Concurrent;
 
 namespace CaptainHook.Publishers
 {
@@ -8,6 +8,6 @@ namespace CaptainHook.Publishers
     /// </summary>
     public interface ICaptainHookPublisherManager
     {
-        Task HandleEventAsync(HookEvent eventData);
+        ConcurrentDictionary<string, Type> EventTypes { get; }
     }
 }

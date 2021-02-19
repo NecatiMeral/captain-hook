@@ -16,26 +16,25 @@ using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.VirtualFileSystem;
 using CaptainHook.Receivers;
-using Volo.Abp.EventBus.RabbitMq;
 using Volo.Abp.Caching.StackExchangeRedis;
 using CaptainHook.AzureDevOps.Receiver;
 using CaptainHook.AzureDevOps.RocketChat.Publisher;
-using CaptainHook.EventBus.Local;
+using Volo.Abp.EventBus;
 
 namespace CaptainHook
 {
     [DependsOn(
-        typeof(CaptainHookHttpApiModule),
         typeof(AbpAutofacModule),
-        typeof(CaptainHookApplicationModule),
-        typeof(CaptainHookEntityFrameworkCoreDbMigrationsModule),
         typeof(AbpAspNetCoreAuthenticationJwtBearerModule),
         typeof(AbpAspNetCoreSerilogModule),
+        typeof(AbpCachingStackExchangeRedisModule),
+        typeof(AbpEventBusModule),
         typeof(CaptainHookAzureDevOpsReceiverModule),
         typeof(CaptainHookAzureDevOpsRocketChatPublishersModule),
-        typeof(AbpCachingStackExchangeRedisModule),
-        typeof(AbpEventBusRabbitMqModule),
-        typeof(CaptainHookLocalEventBusModule)
+        typeof(CaptainHookEntityFrameworkCoreDbMigrationsModule),
+        typeof(CaptainHookApplicationModule),
+        typeof(CaptainHookHttpApiModule),
+        typeof(CaptainHookPublisherModule)
     )]
     public class CaptainHookUnifiedHostModule : AbpModule
     {

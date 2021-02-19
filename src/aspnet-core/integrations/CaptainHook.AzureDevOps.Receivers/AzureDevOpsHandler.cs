@@ -2,17 +2,18 @@
 using CaptainHook.WebHooks;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using Volo.Abp.EventBus.Distributed;
 
 namespace CaptainHook.AzureDevOps.Receiver
 {
     public abstract class AzureDevOpsHandler<TPayload> : IAzureDevOpsHandler
     {
-        protected ICaptainHookEventBus EventBus { get; }
+        protected IDistributedEventBus EventBus { get; }
         protected string EventType { get; }
 
-        public AzureDevOpsHandler(ICaptainHookEventBus queue, string eventType)
+        public AzureDevOpsHandler(IDistributedEventBus eventBus, string eventType)
         {
-            EventBus = queue;
+            EventBus = eventBus;
             EventType = eventType;
         }
 

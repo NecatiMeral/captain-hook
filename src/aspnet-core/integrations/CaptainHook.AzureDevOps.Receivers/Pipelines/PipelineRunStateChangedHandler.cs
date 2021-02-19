@@ -1,13 +1,13 @@
 ﻿using CaptainHook.AzureDevOps.Payload;
-using CaptainHook.EventBus;
 using Volo.Abp.DependencyInjection;
+using Volo.Abp.EventBus.Distributed;
 
 namespace CaptainHook.AzureDevOps.Receiver.Pipelines
 {
     public class PipelineRunStateChangedHandler : AzureDevOpsHandler<PipelineRunStateChangedPayload>, ITransientDependency
     {
-        public PipelineRunStateChangedHandler(ICaptainHookEventBus queue)
-            : base(queue, AzureDevOpsConstants.EventType.Pipelines.RunStateChanged)
+        public PipelineRunStateChangedHandler(IDistributedEventBus bus)
+            : base(bus, AzureDevOpsConstants.EventType.Pipelines.RunStateChanged)
         {
         }
     }

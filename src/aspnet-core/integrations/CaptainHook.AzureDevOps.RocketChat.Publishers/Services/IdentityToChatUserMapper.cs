@@ -19,7 +19,7 @@ namespace CaptainHook.AzureDevOps.RocketChat.Publisher.Services
             RocketChatClient = rocketChatClient;
         }
 
-        public async Task<RocketChatUserDto[]> GetUsersAsync(Uri azureDevOpsBaseUri, Guid[] identityIds, RocketChatInputDto rocketChatParams)
+        public async Task<RocketChatUserDto[]> GetUsersAsync(Uri azureDevOpsBaseUri, Guid[] identityIds)
         {
             var identities = await AzureDevOpsService.GetAndIterateIdentitiesAsync(
                 azureDevOpsBaseUri,
@@ -33,9 +33,6 @@ namespace CaptainHook.AzureDevOps.RocketChat.Publisher.Services
 
             return await RocketChatClient.GetUsersByEmailAsync(new GetRocketChatUsersByEmailInputDto
             {
-                BaseUrl = rocketChatParams.BaseUrl,
-                Username = rocketChatParams.Username,
-                Password = rocketChatParams.Password,
                 Emails = mails
             });
         }

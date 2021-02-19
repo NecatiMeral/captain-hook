@@ -11,19 +11,17 @@ using CaptainHook.RocketChat;
 
 namespace CaptainHook.AzureDevOps.RocketChat.Publisher.Code
 {
-    public class GitPullRequestUpdatedHandler : IEventPublisher<GitPullRequestUpdatedPayload>, ITransientDependency
+    public class GitPullRequestUpdatedHandler : IEventPublisher<GitPullRequestUpdatedPayload>, IScopedDependency
     {
-        protected IConfigurationProvider ConfigurationProvider { get; }
         protected IRocketChatClient RocketChatClient { get; }
         protected IIdentityToChatUserMapper IdentityToChatUserMapper { get; }
         protected IImageUriFactory ImageUriFactory { get; }
 
-        public GitPullRequestUpdatedHandler(IConfigurationProvider configurationProvider,
+        public GitPullRequestUpdatedHandler(
             IRocketChatClient rocketChatClient,
             IIdentityToChatUserMapper identityToChatUserMapper,
             IImageUriFactory imageUriFactory)
         {
-            ConfigurationProvider = configurationProvider;
             RocketChatClient = rocketChatClient;
             IdentityToChatUserMapper = identityToChatUserMapper;
             ImageUriFactory = imageUriFactory;
@@ -31,23 +29,10 @@ namespace CaptainHook.AzureDevOps.RocketChat.Publisher.Code
 
         public async Task HandleEventAsync(HookEventToPublish<GitPullRequestUpdatedPayload> eventData)
         {
-            var configuration = ConfigurationProvider.GetConfigurationOrNull(AzureDevOpsRocketChatConsts.PublisherName, eventData.Event.Id);
-            if (configuration == null)
-            {
-                return;
-            }
-
             var payload = eventData.Payload;
-
             var users = await IdentityToChatUserMapper.GetUsersAsync(
                 payload.ResourceContainers.Collection.BaseUrl,
-                payload.Resource.Reviewers.Select(x => x.Id).ToArray(),
-                new RocketChatInputDto
-                {
-                    BaseUrl = configuration.BaseUrl,
-                    Username = configuration.Username,
-                    Password = configuration.Password
-                }
+                payload.Resource.Reviewers.Select(x => x.Id).ToArray()
             );
 
             // TODO: Determine which users / channels to notify
@@ -57,9 +42,6 @@ namespace CaptainHook.AzureDevOps.RocketChat.Publisher.Code
 
             var messageTemplate = new MessageDto
             {
-                BaseUrl = configuration.BaseUrl,
-                Username = configuration.Username,
-                Password = configuration.Password,
                 Text = payload.Message.Markdown,
                 Alias = payload.Resource.CreatedBy.DisplayName,
                 Avatar = avatarUri.AbsoluteUri

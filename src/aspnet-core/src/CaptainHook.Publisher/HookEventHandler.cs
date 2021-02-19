@@ -1,23 +1,22 @@
-﻿using CaptainHook.EventBus;
-using CaptainHook.Publishers;
+﻿using CaptainHook.Publishers;
 using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 
-namespace CaptainHook.Receivers
+namespace CaptainHook.EventBus
 {
     public class HookEventHandler : IDistributedEventHandler<HookEvent>, ITransientDependency
     {
-        protected ICaptainHookPublisherManager Manager { get; }
+        protected ICaptainHookPublisherProcessor Processor { get; }
 
-        public HookEventHandler(ICaptainHookPublisherManager manager)
+        public HookEventHandler(ICaptainHookPublisherProcessor processor)
         {
-            Manager = manager;
+            Processor = processor;
         }
 
         public async Task HandleEventAsync(HookEvent eventData)
         {
-            await Manager.HandleEventAsync(eventData);
+            await Processor.HandleEventAsync(eventData);
         }
     }
 }

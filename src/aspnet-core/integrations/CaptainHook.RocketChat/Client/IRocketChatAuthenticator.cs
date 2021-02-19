@@ -12,11 +12,8 @@ namespace CaptainHook.RocketChat
         /// Authenticates the given <see cref="HttpClient"/> instance by using the given options.
         /// </summary>
         /// <param name="httpClient">The <see cref="HttpClient"/> to authenticate.</param>
-        /// <param name="baseUrl">The base-url of the rocket chat server to use.</param>
-        /// <param name="username">The username to use.</param>
-        /// <param name="password">The user's password to use.</param>
         /// <returns></returns>
-        Task<bool> AuthenticateAsync(HttpClient httpClient, string baseUrl, string username, string password);
+        Task<bool> AuthenticateAsync(HttpClient httpClient);
         
         /// <summary>
         /// Exits the current RocketChat session and logs the current user out.

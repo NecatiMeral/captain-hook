@@ -12,16 +12,20 @@ namespace CaptainHook.RocketChat
     {
         readonly Dictionary<string, AuthenticationResult> tokenCache;
         protected IHttpClientFactory HttpClientFactory { get; }
+        protected IRocketChatClientOptionsProvider RocketChatClientOptionsProvider { get; }
 
-        public RocketChatAuthenticator(IHttpClientFactory httpClientFactory)
+        public RocketChatAuthenticator(IHttpClientFactory httpClientFactory,
+            IRocketChatClientOptionsProvider rocketChatClientOptionsProvider)
         {
             HttpClientFactory = httpClientFactory;
+            RocketChatClientOptionsProvider = rocketChatClientOptionsProvider;
             tokenCache = new Dictionary<string, AuthenticationResult>();
         }
 
-        public async Task<bool> AuthenticateAsync(HttpClient httpClient, string baseUrl, string username, string password)
+        public async Task<bool> AuthenticateAsync(HttpClient httpClient)
         {
-            var auth = await AuthenticateAsyncImpl(baseUrl, username, password);
+            var options = RocketChatClientOptionsProvider.GetConfigurationOrNull().Value;
+            var auth = await AuthenticateAsyncImpl(options.BaseUrl, options.Username, options.Password);
 
             return await AuthenticateImplAsync(httpClient, auth);
         }

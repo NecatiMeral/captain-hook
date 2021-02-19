@@ -19,21 +19,20 @@ using Volo.Abp.Caching.StackExchangeRedis;
 using CaptainHook.EntityFrameworkCore;
 using CaptainHook.Receivers;
 using CaptainHook.AzureDevOps.RocketChat.Publisher;
-using CaptainHook.EventBus.RabbitMQ;
 
 namespace CaptainHook
 {
     [DependsOn(
-        typeof(CaptainHookHttpApiModule),
         typeof(AbpAutofacModule),
-        typeof(CaptainHookApplicationModule),
-        typeof(CaptainHookEntityFrameworkCoreDbMigrationsModule),
         typeof(AbpAspNetCoreAuthenticationJwtBearerModule),
         typeof(AbpAspNetCoreSerilogModule),
-        typeof(CaptainHookAzureDevOpsRocketChatPublishersModule),
         typeof(AbpCachingStackExchangeRedisModule),
         typeof(AbpEventBusRabbitMqModule),
-        typeof(CaptainHookDistributedEventBusModule)
+        typeof(CaptainHookApplicationModule),
+        typeof(CaptainHookEntityFrameworkCoreDbMigrationsModule),
+        typeof(CaptainHookAzureDevOpsRocketChatPublishersModule),
+        typeof(CaptainHookHttpApiModule),
+        typeof(CaptainHookPublisherModule)
     )]
     public class CaptainHookPublisherHostModule : AbpModule
     {

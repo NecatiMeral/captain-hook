@@ -27,7 +27,7 @@ namespace CaptainHook
 
             try
             {
-                Log.Information("Starting CaptainHook.HttpApi.Host.");
+                Log.Information("Starting CaptainHook.Unified.Host");
                 CreateHostBuilder(args).Build().Run();
                 return 0;
             }

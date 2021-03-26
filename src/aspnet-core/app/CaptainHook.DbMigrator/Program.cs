@@ -1,4 +1,3 @@
-using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -22,7 +21,9 @@ namespace CaptainHook.DbMigrator
                 .MinimumLevel.Override("CaptainHook", LogEventLevel.Information)
 #endif
                 .Enrich.FromLogContext()
+#if DEBUG
                 .WriteTo.Async(c => c.File("Logs/logs.log"))
+#endif
                 .WriteTo.Async(c => c.Console())
                 .CreateLogger();
 

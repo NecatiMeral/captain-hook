@@ -6,6 +6,8 @@ namespace CaptainHook.Publishers
     {
         public List<CaptainHookPublisherItem> Publish { get; set; }
 
+        public bool EnablePublishing { get; set; }
+
         public CaptainHookPublisherOptions()
         {
             Publish = new List<CaptainHookPublisherItem>();

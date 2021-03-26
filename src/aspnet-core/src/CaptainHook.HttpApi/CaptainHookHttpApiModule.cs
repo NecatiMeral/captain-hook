@@ -9,8 +9,9 @@ namespace CaptainHook
 {
     [DependsOn(
         typeof(CaptainHookApplicationContractsModule),
+        typeof(CaptainHookDomainModule),
         typeof(AbpAspNetCoreMvcModule)
-        )]
+    )]
     public class CaptainHookHttpApiModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)

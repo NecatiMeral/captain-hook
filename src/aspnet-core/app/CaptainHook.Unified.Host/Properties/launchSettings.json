@@ -3,15 +3,15 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "https://localhost:44300",
-      "sslPort": 44300
+      "applicationUrl": "https://localhost:44301",
+      "sslPort": 44301
     }
   },
   "profiles": {
     "CaptainHook.HttpApi.Host": {
       "commandName": "Project",
       "launchBrowser": false,
-      "applicationUrl": "https://localhost:44300",
+      "applicationUrl": "https://localhost:44301",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

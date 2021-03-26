@@ -6,7 +6,6 @@ using Volo.Abp;
 using Volo.Abp.EventBus;
 using CaptainHook.Publishers;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 namespace CaptainHook
 {

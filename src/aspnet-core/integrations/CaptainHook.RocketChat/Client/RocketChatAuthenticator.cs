@@ -8,7 +8,7 @@ using Volo.Abp.DependencyInjection;
 
 namespace CaptainHook.RocketChat
 {
-    public class RocketChatAuthenticator : IRocketChatAuthenticator, ISingletonDependency
+    public class RocketChatAuthenticator : IRocketChatAuthenticator, IScopedDependency
     {
         readonly Dictionary<string, AuthenticationResult> tokenCache;
         protected IHttpClientFactory HttpClientFactory { get; }

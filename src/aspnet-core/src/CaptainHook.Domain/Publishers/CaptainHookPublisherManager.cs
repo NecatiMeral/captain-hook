@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Concurrent;
-using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 
@@ -40,11 +39,6 @@ namespace CaptainHook.Publishers
 
         public void Initialize()
         {
-            if (!Options.EnablePublishing)
-            {
-                return;
-            }
-
             foreach (var configItem in Options.Publish)
             {
                 var reg = Registry.PublisherHandlers[configItem.ReceiveFrom, configItem.PublishTo];
@@ -60,6 +54,9 @@ namespace CaptainHook.Publishers
 
                 foreach (var eventHandler in reg)
                 {
+                    Logger.LogInformation("Registering receiver `{0}:{1}` to handle events of type `{2}` with identifier `{3}`",
+                        reg.ReceiverName, eventHandler.Type.FullName, eventHandler.EventName, configItem.Identifier);
+
                     var key = CaptainHookPublisherProcessor.CalculateKey(reg.ReceiverName, configItem.Identifier, eventHandler.EventName);
 
                     EventTypes[key] = eventHandler.Type;

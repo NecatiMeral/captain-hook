@@ -12,17 +12,17 @@ namespace CaptainHook.Publishers
     class CaptainHookPublisherProcessor : ICaptainHookPublisherProcessor, IScopedDependency
     {
         protected IServiceProvider ServiceProvider { get; }
+        protected IHybridServiceScopeFactory ServiceScopeFactory { get; }
         protected ICaptainHookPublisherManager CaptainHookPublisherManager { get; }
-        protected IHookEventContextProvider HookEventContextProvider { get; }
 
         public CaptainHookPublisherProcessor(
             IServiceProvider serviceProvider,
-            ICaptainHookPublisherManager captainHookPublisherManager,
-            IHookEventContextProvider hookEventContextProvider)
+            IHybridServiceScopeFactory serviceScopeFactory,
+            ICaptainHookPublisherManager captainHookPublisherManager)
         {
             ServiceProvider = serviceProvider;
+            ServiceScopeFactory = serviceScopeFactory;
             CaptainHookPublisherManager = captainHookPublisherManager;
-            HookEventContextProvider = hookEventContextProvider;
         }
 
         public static string CalculateKey(string receiverName, string identifier, string eventName)
@@ -54,24 +54,32 @@ namespace CaptainHook.Publishers
                     return;
                 }
 
-                HookEventContextProvider.SetContext(eventData);
-
                 var payloadType = implementedPayloadTypes[0];
-                var json = (JsonElement)eventData.Payload;
-                var parameterType = typeof(HookEventToPublish<>).MakeGenericType(payloadType);
+                var payload = eventData.Payload;
+                if (!payloadType.IsAssignableFrom(eventData.Payload.GetType()))
+                {
+                    var json = (JsonElement)eventData.Payload;
+                    payload = ToObject(json, payloadType);
+                }
 
-                var payload = ToObject(json, payloadType);
+                var parameterType = typeof(HookEventToPublish<>).MakeGenericType(payloadType);
                 var eventWrapper = Activator.CreateInstance(parameterType, new[] { eventData, payload });
 
-                var receiver = (IEventPublisher)ServiceProvider.GetRequiredService(handlerType);
-                var method = typeof(IEventPublisher<>)
-                    .MakeGenericType(payloadType)
-                    .GetMethod(
-                        nameof(IEventPublisher<object>.HandleEventAsync),
-                        new[] { parameterType }
-                    );
+                using (var scope = ServiceScopeFactory.CreateScope())
+                {
+                    var contextProvider = scope.ServiceProvider.GetRequiredService<IHookEventContextProvider>();
+                    contextProvider.SetContext(eventData);
 
-                await (Task)method.Invoke(receiver, new[] { eventWrapper });
+                    var receiver = scope.ServiceProvider.GetRequiredService(handlerType);
+                    var method = typeof(IEventPublisher<>)
+                        .MakeGenericType(payloadType)
+                        .GetMethod(
+                            nameof(IEventPublisher<object>.HandleEventAsync),
+                            new[] { parameterType }
+                        );
+
+                    await (Task)method.Invoke(receiver, new[] { eventWrapper });
+                }
             }
             else
             {

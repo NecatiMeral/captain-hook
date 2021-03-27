@@ -105,6 +105,11 @@ namespace CaptainHook.AzureDevOps
                 /// Pull request is updated; status, review list, reviewer vote changed or the source branch is updated with a push
                 /// </summary>
                 public const string PullRequestUpdated = "git.pullrequest.updated";
+
+                /// <summary>
+                /// Pull request is commented
+                /// </summary>
+                public const string PullRequestCommented = "ms.vss-code.git-pullrequest-comment-event";
             }
         }
     }

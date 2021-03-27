@@ -28,6 +28,7 @@ namespace CaptainHook.AzureDevOps.Receiver
                 options.Handlers[AzureDevOpsConstants.EventType.Code.PullRequestCreated] = typeof(GitPullRequestCreatedHandler);
                 options.Handlers[AzureDevOpsConstants.EventType.Code.PullRequestUpdated] = typeof(GitPullRequestUpdatedHandler);
                 options.Handlers[AzureDevOpsConstants.EventType.Code.PullRequestMerged] = typeof(GitPullRequestMergedHandler);
+                options.Handlers[AzureDevOpsConstants.EventType.Code.PullRequestCommented] = typeof(GitPullRequestCommentedHandler);
 
                 options.Handlers[AzureDevOpsConstants.EventType.Pipelines.RunStateChanged] = typeof(PipelineRunStateChangedHandler);
             });

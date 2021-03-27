@@ -5,7 +5,6 @@ using CaptainHook.Publishers;
 using CaptainHook.RocketChat;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Volo.Abp;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Http.Client;
 using Volo.Abp.Modularity;
@@ -35,7 +34,10 @@ namespace CaptainHook.AzureDevOps.RocketChat.Publisher
             {
                 o.PublisherHandlers.GetOrAdd(AzureDevOpsConstants.ReceiverName, AzureDevOpsRocketChatConsts.PublisherName)
                     .AppendScopedDependency<IRocketChatClientOptionsProvider>()
+                    .Append<GitPullRequestCreatedHandler>(AzureDevOpsConstants.EventType.Code.PullRequestCreated)
                     .Append<GitPullRequestUpdatedHandler>(AzureDevOpsConstants.EventType.Code.PullRequestUpdated)
+                    .Append<GitPullRequestMergeCommitCreatedHandler>(AzureDevOpsConstants.EventType.Code.PullRequestMerged)
+                    .Append<GitPullRequestCommentedHandler>(AzureDevOpsConstants.EventType.Code.PullRequestCommented)
                     .Append<PipelineRunStateChangedHandler>(AzureDevOpsConstants.EventType.Pipelines.RunStateChanged);
             });
         }

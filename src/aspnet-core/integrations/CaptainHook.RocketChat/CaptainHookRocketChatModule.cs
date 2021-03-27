@@ -1,4 +1,4 @@
-﻿using CaptainHook.RocketChat;
+﻿using CaptainHook.RocketChat.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp;
 using Volo.Abp.AutoMapper;
@@ -15,8 +15,8 @@ namespace CaptainHook.AzureDevOps
     {
         public override void OnApplicationShutdown(ApplicationShutdownContext context)
         {
-            var authenticator = context.ServiceProvider.GetRequiredService<IRocketChatAuthenticator>();
-            authenticator.SignOffAsync().GetAwaiter().GetResult();
+            var authenticationStore = context.ServiceProvider.GetRequiredService<IRocketChatAuthenticationStore>();
+            authenticationStore.SignOffAsync().GetAwaiter().GetResult();
         }
     }
 }

@@ -14,11 +14,5 @@ namespace CaptainHook.RocketChat
         /// <param name="httpClient">The <see cref="HttpClient"/> to authenticate.</param>
         /// <returns></returns>
         Task<bool> AuthenticateAsync(HttpClient httpClient);
-        
-        /// <summary>
-        /// Exits the current RocketChat session and logs the current user out.
-        /// </summary>
-        /// <returns></returns>
-        Task SignOffAsync();
     }
 }

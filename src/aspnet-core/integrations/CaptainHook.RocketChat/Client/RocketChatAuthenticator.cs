@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CaptainHook.RocketChat.Client;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -10,38 +11,35 @@ namespace CaptainHook.RocketChat
 {
     public class RocketChatAuthenticator : IRocketChatAuthenticator, IScopedDependency
     {
-        readonly Dictionary<string, AuthenticationResult> tokenCache;
+        readonly Dictionary<string, RocketChatClientAuthentication> tokenCache;
         protected IHttpClientFactory HttpClientFactory { get; }
-        protected IRocketChatClientOptionsProvider RocketChatClientOptionsProvider { get; }
+        protected IRocketChatAuthenticationStore AuthenticationStore { get; }
+        protected IRocketChatClientOptionsProvider ClientOptionsProvider { get; }
+        protected IRocketChatPresenceService PresenceService { get; }
 
         public RocketChatAuthenticator(IHttpClientFactory httpClientFactory,
-            IRocketChatClientOptionsProvider rocketChatClientOptionsProvider)
+            IRocketChatAuthenticationStore rocketChatAuthenticationStore,
+            IRocketChatClientOptionsProvider rocketChatClientOptionsProvider,
+            IRocketChatPresenceService rocketChatPresenceService)
         {
             HttpClientFactory = httpClientFactory;
-            RocketChatClientOptionsProvider = rocketChatClientOptionsProvider;
-            tokenCache = new Dictionary<string, AuthenticationResult>();
+            AuthenticationStore = rocketChatAuthenticationStore;
+            ClientOptionsProvider = rocketChatClientOptionsProvider;
+            PresenceService = rocketChatPresenceService;
+            tokenCache = new Dictionary<string, RocketChatClientAuthentication>();
         }
 
         public async Task<bool> AuthenticateAsync(HttpClient httpClient)
         {
-            var options = RocketChatClientOptionsProvider.GetConfigurationOrNull().Value;
+            var options = ClientOptionsProvider.GetConfigurationOrNull().Value;
             var auth = await AuthenticateAsyncImpl(options.BaseUrl, options.Username, options.Password);
 
-            return await AuthenticateImplAsync(httpClient, auth);
+            return await RocketChatAuthenticationHelper.AuthenticateAsync(httpClient, auth);
         }
 
-        Task<bool> AuthenticateImplAsync(HttpClient httpClient, AuthenticationResult auth)
+        async Task<RocketChatClientAuthentication> AuthenticateAsyncImpl(string baseUrl, string username, string password)
         {
-            httpClient.BaseAddress = new Uri(auth.BaseUrl.EnsureEndsWith('/'));
-            httpClient.DefaultRequestHeaders.Add("X-User-ID", auth.UserId);
-            httpClient.DefaultRequestHeaders.Add("X-Auth-Token", auth.AuthToken);
-
-            return Task.FromResult(true);
-        }
-
-        async Task<AuthenticationResult> AuthenticateAsyncImpl(string baseUrl, string username, string password)
-        {
-            var cacheKey = AuthenticationResult.CalculateCacheKey(baseUrl, username);
+            var cacheKey = RocketChatClientAuthentication.CalculateCacheKey(baseUrl, username);
             if (tokenCache.ContainsKey(cacheKey))
             {
                 return tokenCache[cacheKey];
@@ -62,7 +60,7 @@ namespace CaptainHook.RocketChat
                 {
                     var authenticationResponse = await response.Content.ReadFromJsonAsync<AuthenticationResponse>();
 
-                    var authResult = new AuthenticationResult
+                    var authResult = new RocketChatClientAuthentication
                     {
                         BaseUrl = baseUrl,
                         Username = username,
@@ -71,8 +69,9 @@ namespace CaptainHook.RocketChat
                     };
                     tokenCache[cacheKey] = authResult;
 
-                    await SetUserPresence(authResult, "online", "serving your DevOps notifications.");
+                    await PresenceService.SetUserPresenceAsync(authResult, "online", "serving your DevOps notifications");
 
+                    AuthenticationStore.AddTokenRegistration(authResult);
                     return authResult;
                 }
                 else
@@ -80,24 +79,6 @@ namespace CaptainHook.RocketChat
                     var message = string.Format("Failed to authenticate `{0}` @ `{1}`", username, baseUrl);
                     throw new ApplicationException(message);
                 }
-            }
-        }
-
-        async Task SetUserPresence(AuthenticationResult auth, string status, string message)
-        {
-            using (var client = HttpClientFactory.CreateClient("RocketChat"))
-            {
-                await AuthenticateImplAsync(client, auth);
-
-                _ = await client.PostAsJsonAsync("api/v1/users.setStatus", new { message = message, status = status });
-            }
-        }
-
-        public async Task SignOffAsync()
-        {
-            foreach (var pair in tokenCache)
-            {
-                await SetUserPresence(pair.Value, "offline", "404 not found");
             }
         }
 
@@ -117,19 +98,6 @@ namespace CaptainHook.RocketChat
 
             [JsonPropertyName("userId")]
             public string UserId { get; set; }
-        }
-
-        class AuthenticationResult
-        {
-            public string BaseUrl { get; set; }
-            public string Username { get; set; }
-            public string UserId { get; set; }
-            public string AuthToken { get; set; }
-
-            public static string CalculateCacheKey(string baseUrl, string username)
-            {
-                return $"{baseUrl}-{username}";
-            }
         }
     }
 }

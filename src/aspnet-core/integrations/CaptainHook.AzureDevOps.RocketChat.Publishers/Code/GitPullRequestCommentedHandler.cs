@@ -42,9 +42,17 @@ namespace CaptainHook.AzureDevOps.RocketChat.Publisher.Code
 
             var messageTemplate = new MessageDto
             {
-                Text = payload.DetailedMessage.Markdown,
-                Alias = payload.Resource.Comment.Author.DisplayName,
-                Avatar = avatarUri.AbsoluteUri
+                Text = payload.Message.Markdown,
+                Attachments = new MessageAttachmentDto[]
+                {
+                    new MessageAttachmentDto
+                    {
+                        ThumbUrl = avatarUri.AbsoluteUri,
+                        Text = payload.DetailedMessage.Html,
+                        Timestamp = payload.Resource.Comment.PublishedDate.ToString(),
+                        AuthorIcon = avatarUri.AbsoluteUri
+                    }
+                }
             };
 
             foreach (var user in users)

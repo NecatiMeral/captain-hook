@@ -9,5 +9,6 @@ namespace CaptainHook.AzureDevOps.Client
         Task<AzureDevOpsIdentityDto[]> GetIdentitiesAsync(Uri collectionUri, Guid[] identityIds);
         Task<AzureDevOpsIdentityDto[]> GetAndIterateIdentitiesAsync(Uri collectionUri, Guid[] identityIds);
         Task<IdentityImageDto> DownloadIdentityImageAsync(Uri collectionUri, Guid identityId);
+        Task<IdentityImageDto> DownloadGraphAvatarAsync(Uri collectionUri, string descriptor);
     }
 }

@@ -53,7 +53,7 @@ namespace CaptainHook
 
         void EnsureMediaTypeIsSet(ImageDto image)
         {
-            if (image.MediaType.IsNullOrWhiteSpace())
+            if (image != null && image.MediaType.IsNullOrWhiteSpace())
             {
                 using (var memStream = new MemoryStream(image.Payload, false))
                 {

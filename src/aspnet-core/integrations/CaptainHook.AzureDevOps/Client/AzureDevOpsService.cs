@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.Services.Identity;
 using Microsoft.VisualStudio.Services.Identity.Client;
+using Microsoft.VisualStudio.Services.Profile;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -132,6 +133,26 @@ namespace CaptainHook.AzureDevOps.Client
                         MediaType = response.Content.Headers.ContentType.MediaType
                     };
                 }
+            }
+        }
+
+        public async Task<IdentityImageDto> DownloadGraphAvatarAsync(Uri collectionUri, string descriptor)
+        {
+            var connection = await ConnectionAccessor.GetConnectionAsync(collectionUri);
+
+            using (var client = await connection.GetClientAsync<CaptainHookGraphHttpClient>())
+            {
+                var avatar = await client.GetAvatarAsync(descriptor, AvatarSize.Medium);
+
+                if (avatar.ImageData != null)
+                {
+                    return new IdentityImageDto
+                    {
+                        Payload = avatar.ImageData,
+                        MediaType = avatar.ImageType
+                    };
+                }
+                return null;
             }
         }
     }

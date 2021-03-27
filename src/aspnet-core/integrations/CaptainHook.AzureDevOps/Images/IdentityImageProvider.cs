@@ -32,22 +32,52 @@ namespace CaptainHook.AzureDevOps.Images
             {
                 var decodedUri = segments[0].EnsureEndsWith('/');
                 var collectionUrl = new Uri(decodedUri);
-                var identifier = Guid.Parse(segments[1]);
 
-                var image = await AzureDevOpsService.DownloadIdentityImageAsync(collectionUrl, identifier);
-                if (image != null)
+                if (Guid.TryParse(segments[1], out Guid identifier))
                 {
-                    return new ImageDto
+                    var image = await AzureDevOpsService.DownloadIdentityImageAsync(collectionUrl, identifier);
+                    if (image != null)
                     {
-                        Payload = image.Payload,
-                        MediaType = image.MediaType
-                    };
+                        return new ImageDto
+                        {
+                            Payload = image.Payload,
+                            MediaType = image.MediaType
+                        };
+                    }
+                }
+                else
+                {
+                    var descriptor = segments[1];
+                    var image = await AzureDevOpsService.DownloadGraphAvatarAsync(collectionUrl, descriptor);
+                    if (image != null)
+                    {
+                        return new ImageDto
+                        {
+                            Payload = image.Payload,
+                            MediaType = image.MediaType
+                        };
+                    }
                 }
             }
             return null;
         }
 
         public static string GetImageId(Uri imageUri)
+        {
+            var uriString = imageUri.ToString();
+
+            if (uriString.Contains("GraphProfile"))
+            {
+                return GetGraphImageId(imageUri);
+            }
+            else if (uriString.Contains("identityImage?id="))
+            {
+                return GetIdentityImageId(imageUri);
+            }
+            throw new NotImplementedException("Failed to determine image uri format.");
+        }
+
+        static string GetGraphImageId(Uri imageUri)
         {
             var uri = new UriBuilder(imageUri.Scheme, imageUri.Host);
 
@@ -56,7 +86,20 @@ namespace CaptainHook.AzureDevOps.Images
                 uri.Path = imageUri.Segments[1];
             }
 
-            string imageId = HttpUtility.ParseQueryString(imageUri.Query).Get("id");
+            var imageId = imageUri.Segments[imageUri.Segments.Length - 1];
+            return $"{uri.Uri.AbsoluteUri}|{imageId}";
+        }
+
+        static string GetIdentityImageId(Uri imageUri)
+        {
+            var uri = new UriBuilder(imageUri.Scheme, imageUri.Host);
+
+            if (imageUri.Segments.Length >= 2)
+            {
+                uri.Path = imageUri.Segments[1];
+            }
+
+            var imageId = HttpUtility.ParseQueryString(imageUri.Query).Get("id");
             return $"{uri.Uri.AbsoluteUri}|{imageId}";
         }
     }

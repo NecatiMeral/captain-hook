@@ -28,11 +28,18 @@ namespace CaptainHook
 
         [HttpGet]
         [Route("show/{providerName}/{imageId}")]
-        public async Task<FileResult> GetImageToDisplayAsync(string providerName, string imageId)
+        public async Task<ActionResult> GetImageToDisplayAsync(string providerName, string imageId)
         {
             var image = await ImageAppService.GetImageAsync(providerName, imageId);
 
-            return File(image.Payload, image.MediaType);
+            if (image != null)
+            {
+                return File(image.Payload, image.MediaType);
+            }
+            else
+            {
+                return NoContent();
+            }
         }
     }
 }

@@ -10,13 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Serilog.AspNetCore" Version="4.0.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.Async" Version="1.4.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.*" />
-    <PackageReference Include="Volo.Abp.Autofac" Version="4.2.2" />
-    <PackageReference Include="Volo.Abp.AspNetCore.Authentication.JwtBearer" Version="4.2.2" />
-    <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="4.2.2" />
-    <PackageReference Include="Volo.Abp.EventBus" Version="4.2.2" />
+    <PackageReference Include="Volo.Abp.Autofac" Version="4.3.2" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Authentication.JwtBearer" Version="4.3.2" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="4.3.2" />
+    <PackageReference Include="Volo.Abp.EventBus" Version="4.3.2" />
   </ItemGroup>
 
   <ItemGroup>

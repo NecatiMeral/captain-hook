@@ -134,7 +134,6 @@ namespace CaptainHook
             app.UseAbpRequestLocalization();
 
             app.UseCorrelationId();
-            app.UseVirtualFiles();
             app.UseRouting();
             app.UseCors(DefaultCorsPolicyName);
             app.UseAuthentication();
